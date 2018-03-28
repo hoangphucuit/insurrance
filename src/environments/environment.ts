@@ -6,3 +6,11 @@
 export const environment = {
   production: false
 };
+export const firebaseConfig = {
+  apiKey: "AIzaSyB4DTBPDJZJ2r6nfdlCDc1aVFl9d78nRC0",
+    authDomain: "warranty-dc594.firebaseapp.com",
+    databaseURL: "https://warranty-dc594.firebaseio.com",
+    projectId: "warranty-dc594",
+    storageBucket: "warranty-dc594.appspot.com",
+    messagingSenderId: "407881970587"
+};
