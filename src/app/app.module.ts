@@ -45,11 +45,15 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { LoginComponent } from './login/login.component';
 import { CustomersComponent } from './customers/customers.component';
+import { AdminComponent } from './admin/admin.component';
+import { HomeComponent } from './home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    CustomersComponent
+    CustomersComponent,
+    AdminComponent,
+    HomeComponent
   ],
   imports: [
     AngularFireModule.initializeApp(firebaseConfig, "insurrance"),
