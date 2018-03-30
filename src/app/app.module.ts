@@ -39,6 +39,8 @@ import {
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireModule } from 'angularfire2';
 import { firebaseConfig } from '../environments/environment';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -47,18 +49,23 @@ import { LoginComponent } from './login/login.component';
 import { CustomersComponent } from './customers/customers.component';
 import { AdminComponent } from './admin/admin.component';
 import { HomeComponent } from './home/home.component';
+import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
+import { CustomerService } from './service/customer.service';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     CustomersComponent,
     AdminComponent,
-    HomeComponent
+    HomeComponent,
+    CustomerDetailComponent
   ],
   imports: [
     AngularFireModule.initializeApp(firebaseConfig, "insurrance"),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
+    AngularFirestoreModule,
     BrowserModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
@@ -97,7 +104,9 @@ import { HomeComponent } from './home/home.component';
     AppRoutingModule,
     
   ],
-  providers: [],
+  providers: [
+    CustomerService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

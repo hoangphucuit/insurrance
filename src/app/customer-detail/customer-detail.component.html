@@ -1,0 +1,63 @@
+
+
+
+<div class="main">
+    <!--Toolbar-->
+    <mat-toolbar>
+        <button mat-icon-button class="menu-btn" (click)="snav.toggle()" ><mat-icon>menu</mat-icon></button>
+    
+      <h2 class="logo">DXC Technology</h2>
+    </mat-toolbar>
+    <!--End Toolbar-->
+    <mat-drawer-container class="content">
+      <mat-drawer #snav class="menu-left" mode="side" opened="true">
+          <div class="noti">
+            <span><i class="material-icons">brightness_low</i></span><span> Hi, Admin</span>
+          </div>
+          <div class="component">
+              <i class="material-icons">home</i><span> Home</span>
+          </div>
+          <div class="component">
+            <mat-icon>border_color</mat-icon><span> Customers's Infomation</span> 
+          </div>
+          
+          <div class="component">
+              <i class="material-icons">power_settings_new</i><span> Logout</span>
+            </div>
+         
+      </mat-drawer>
+<!--Main Content-->
+      <mat-drawer-content class="right-content">
+          <div class="customer">
+            
+            <div class="input-info-customer">
+                <div class="title">
+                    <h2>Add new Customer</h2>
+                </div>
+                <mat-form-field class="input-form">
+                    <input matInput  placeholder="Customer's name">
+                </mat-form-field>
+                <mat-form-field class="input-form">
+                    <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                  <mat-form-field class="input-form">
+                    <input matInput  placeholder="Customer's Phone">
+                </mat-form-field>
+                
+                <button mat-raised-button color="primary" class="add-btn" (click)="addCustomer()">Submit</button>
+                <button mat-raised-button color="warn" class="cancel-btn">Cancel</button>
+            </div>
+           
+                
+
+              
+
+          </div>
+          
+       
+      </mat-drawer-content>
+<!--End Main Content-->
+    </mat-drawer-container>
+  </div>

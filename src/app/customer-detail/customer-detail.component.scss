@@ -55,20 +55,24 @@ font-weight: bold;
     margin-left: 25%;
     .customer{
         padding:2em;
-        .add-customer{
-            margin-bottom: 2em;
+        color: #384b5c;
+       
+        .input-info-customer{
+            webkit-box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+            box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+            text-align: center;
+            padding: 3em 4em 4em 4em;
+            width: 70%;
+            margin:0 auto;
             .add-btn{
-                background-color: rgba(0, 122, 204, 1);
-                .icon-add{
-                    color:#ffffff;
-                    font-weight: bold;
-                }
+                background: #3191d8;
             }
-            .name-btn{
-                color:#3191d8;
-                font-weight: bold;
-            }
+            
         }
+        .input-form{
+            width: 100%;
+         
+       }
     }
 }
 .search {
