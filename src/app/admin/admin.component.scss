@@ -50,8 +50,11 @@ font-weight: bold;
 
  /*End Menu left*/
  /**/
-.content .right-content{
-    margin-left: 25%!important;
+ .right-content .customer{
+    padding: 10px;
+}
+.right-content {
+    margin-left: 25%;
    
 }
 
@@ -61,7 +64,7 @@ font-weight: bold;
     .menu-btn{
         display: block;
     }
-    .content .menu-left{
+    .content .menu-left {
         width: 40%;
     }
 }
