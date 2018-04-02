@@ -55,6 +55,14 @@ font-weight: bold;
     margin-left: 25%;
     .customer{
         padding:2em;
+        .icon-edit{
+            color:#3191d8;
+            cursor: pointer;
+        }
+        .icon-delete{
+            color:rgb(226, 76, 76);
+            cursor: pointer;
+        }
         .add-customer{
             margin-bottom: 2em;
             .add-btn{
@@ -82,7 +90,7 @@ font-weight: bold;
     max-height: 500px;
     min-width: 300px;
   }
-  
+
   .mat-table {
     overflow: auto;
     max-height: 500px;
@@ -98,4 +106,9 @@ font-weight: bold;
     .content .menu-left {
         width: 40%;
     }
+}
+
+.mat-cell, .mat-header-cell{
+    margin: 0 5px;
+   
 }

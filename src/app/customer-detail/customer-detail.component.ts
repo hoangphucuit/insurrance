@@ -2,6 +2,7 @@ import { Component, OnInit,ViewChild, AfterViewInit, OnChanges, Input } from '@a
 import { Customer } from '../model/customers';
 import { Observable } from 'rxjs/Observable';
 import { CustomerService } from '../service/customer.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -12,8 +13,10 @@ import { CustomerService } from '../service/customer.service';
 })
 export class CustomerDetailComponent implements OnInit {
   customer={} as Customer;
-  constructor(public customerSvc:CustomerService) { 
-   
+  idurl: string;
+  constructor(public customerSvc:CustomerService,private activeroute: ActivatedRoute,) { 
+   this.idurl=this.activeroute.snapshot.params.id;
+   console.log(this.idurl);
   }
 
   ngOnInit() {

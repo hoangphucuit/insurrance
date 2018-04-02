@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 
 import { CustomerDetailComponent } from '../customer-detail/customer-detail.component';
 import { Router } from '@angular/router';
@@ -14,38 +14,54 @@ import { DataSource } from '@angular/cdk/table';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
-  datasource: MatTableDataSource<Customer>;
-  displayedColumns = ['position', 'name', 'age', 'symbol'];
-  //dataSource = new CustomerDataSource(this.customerSvc);
-  
-  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
+showhide:boolean;
+  sourceCustomer:Customer[];
+  displayedColumns = ['id', 'name', 'phone', 'address','showhide','editdelete'];
+  listCustomer = new MatTableDataSource<Customer>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
-
+  @ViewChild(MatSort) sort: MatSort;
   ngAfterViewInit() {//phan trang
-    //this.dataSource.paginator = this.paginator;
+    this.listCustomer.paginator = this.paginator;
+      this.listCustomer.sort = this.sort;
+    
   }
   constructor(
     private router: Router,
     public customerSvc:CustomerService,
     
   ) {
-    console.log(ELEMENT_DATA);
-    console.log(typeof(ELEMENT_DATA));
-    console.log(this.data);
+    
   }
 
   ngOnInit() {
+    this.getAllCustomer();
     
-    
+  }
+  getAllCustomer(){
+    this.customerSvc.getAllCustomer().subscribe(customers=>{
+      
+      this.sourceCustomer=customers;
+      this.listCustomer.data=customers;
+      console.log(this.listCustomer.data);
+    });
   }
  applyFilter(filterValue: string) { //search
      filterValue = filterValue.trim(); // Remove whitespace
      filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-     this.dataSource.filter = filterValue;
+     this.listCustomer.filter = filterValue;
    }
   addCustomer() {
     this.router.navigate(['/customer']);
+  }
+  onChange(event,id:string){
+    this.customerSvc.updateShowhide(id,event.checked);
+    
+  }
+  editCustomerByID(){
+
+  }
+  deleteCustomerByID(id){
+    this.customerSvc.deleteCustomer(id);
   }
 }
 
@@ -53,7 +69,7 @@ export class AdminComponent implements OnInit {
 
 
 
-export class CustomerDataSource extends DataSource<any> {
+/*export class CustomerDataSource extends DataSource<any> {
  
   constructor(private customerSvc: CustomerService) {
   super()
@@ -67,14 +83,14 @@ export class CustomerDataSource extends DataSource<any> {
   disconnect() {
  
   }
-}
+}*/
 
 
 
 
 
 
-
+/*
 export interface Element {
   name: string;
   position: number;
@@ -103,4 +119,4 @@ const ELEMENT_DATA: Element[] = [
   { position: 18, name: 'Argon', age: 39.948, symbol: 'Ar' },
   { position: 19, name: 'Potassium', age: 39.0983, symbol: 'K' },
   { position: 20, name: 'Calcium', age: 40.078, symbol: 'Ca' },
-];
+];*/

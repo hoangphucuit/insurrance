@@ -1,90 +1,116 @@
-
-
-
 <div class="main">
-    <!--Toolbar-->
-    <mat-toolbar>
-        <button mat-icon-button class="menu-btn" (click)="snav.toggle()" ><mat-icon>menu</mat-icon></button>
-    
-      <h2 class="logo">DXC Technology</h2>
-    </mat-toolbar>
-    <!--End Toolbar-->
-    <mat-drawer-container class="content">
-      <mat-drawer #snav class="menu-left" mode="side" opened="true">
-          <div class="noti">
-            <span><i class="material-icons">brightness_low</i></span><span> Hi, Admin</span>
+  <!--Toolbar-->
+  <mat-toolbar>
+    <button mat-icon-button class="menu-btn" (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <h2 class="logo">DXC Technology</h2>
+  </mat-toolbar>
+  <!--End Toolbar-->
+  <mat-drawer-container class="content">
+    <mat-drawer #snav class="menu-left" mode="side" opened="true">
+      <div class="noti">
+        <span>
+          <i class="material-icons">brightness_low</i>
+        </span>
+        <span> Hi, Admin</span>
+      </div>
+      <div class="component">
+        <i class="material-icons">home</i>
+        <span [routerLink]="['/home']"> Home</span>
+      </div>
+      <div class="component">
+        <mat-icon>border_color</mat-icon>
+        <span [routerLink]="['/admin']"> Customers's Infomation</span>
+      </div>
+
+      <div class="component">
+        <i class="material-icons">power_settings_new</i>
+        <span> Logout</span>
+      </div>
+
+    </mat-drawer>
+    <!--Main Content-->
+    <mat-drawer-content class="right-content">
+      <div class="customer">
+        <div class="add-customer">
+          <button class="add-btn" mat-fab (click)="addCustomer()">
+            <mat-icon class="icon-add">add</mat-icon>
+          </button>
+          <span class="name-btn">Create new Customer</span>
+        </div>
+
+
+        <div class="example-container mat-elevation-z8">
+          <div class="search">
+            <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Seach">
+            </mat-form-field>
           </div>
-          <div class="component">
-              <i class="material-icons">home</i><span> Home</span>
-          </div>
-          <div class="component">
-            <mat-icon>border_color</mat-icon><span> Customers's Infomation</span> 
-          </div>
-          
-          <div class="component">
-              <i class="material-icons">power_settings_new</i><span> Logout</span>
-            </div>
-         
-      </mat-drawer>
-<!--Main Content-->
-      <mat-drawer-content class="right-content">
-          <div class="customer">
-              <div class="add-customer">
-                  <button class="add-btn" mat-fab (click)="addCustomer()"><mat-icon class="icon-add">add</mat-icon></button>
-                  <span class="name-btn">Create new Customer</span>
-              </div>
+          <mat-table #table [dataSource]="listCustomer" matSort>
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+            </ng-container>
+
+            <!-- phone Column -->
+            <ng-container matColumnDef="phone">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Phone </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.phone}} </mat-cell>
+            </ng-container>
+
+            <!-- Address Column -->
+            <ng-container matColumnDef="address">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Address </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.address}} </mat-cell>
+            </ng-container>
+            <!-- Address Column -->
+            <ng-container matColumnDef="birtday">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Birtday </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.birtday}} </mat-cell>
+              </ng-container>
+            <!-- Showhide column-->
+            <ng-container matColumnDef="showhide">
+              <mat-header-cell *matHeaderCellDef> Show/Hide </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <mat-slide-toggle [(ngModel)]="element.showhide"
+                (change)="onChange($event,element.id)" [checked]=element.showhide >
+                </mat-slide-toggle>
+              </mat-cell>
+            </ng-container>
+            <!-- Editdelete Column -->
+            <ng-container matColumnDef="editdelete">
+                <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+                <mat-cell *matCellDef="let element"> 
+                   <mat-icon routerLink="/detail/{{element.id}}" class="icon-edit">edit</mat-icon>
+                    <mat-icon class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon>
+                </mat-cell>
+              </ng-container>
               
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
 
-              <div class="example-container mat-elevation-z8">
-                  <div class="search">
-                      <mat-form-field>
-                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Seach">
-                      </mat-form-field>
-                    </div>
-                  <mat-table #table [dataSource]="dataSource">
-                    
-                    <!-- Position Column -->
-                    <ng-container matColumnDef="position">
-                      <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-                      <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
-                    </ng-container>
-                
-                    <!-- Name Column -->
-                    <ng-container matColumnDef="name">
-                      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-                    </ng-container>
-                
-                    <!-- age Column -->
-                    <ng-container matColumnDef="age">
-                      <mat-header-cell *matHeaderCellDef> age </mat-header-cell>
-                      <mat-cell *matCellDef="let element"> {{element.age}} </mat-cell>
-                    </ng-container>
-                
-                    <!-- Symbol Column -->
-                    <ng-container matColumnDef="symbol">
-                      <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
-                      <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
-                    </ng-container>
-                
-                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-                  </mat-table>
-                
-                  <mat-paginator #paginator
-                                 [pageSize]="10"
-                                 [pageSizeOptions]="[5, 10, 20]"
-                                 [showFirstLastButtons]="true">
-                  </mat-paginator>
-                </div>
-                
+          <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+          </mat-paginator>
+        </div>
 
-              
 
-          </div>
-          
-       
-      </mat-drawer-content>
-<!--End Main Content-->
-    </mat-drawer-container>
-  </div>
+
+
+      </div>
+
+
+    </mat-drawer-content>
+    <!--End Main Content-->
+  </mat-drawer-container>
+</div>
