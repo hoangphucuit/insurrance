@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './/app-routing.module';
-
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import {
   MatAutocompleteModule,
@@ -39,8 +39,6 @@ import {
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import { AngularFireStorageModule } from 'angularfire2/storage';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireModule } from 'angularfire2';
 import { firebaseConfig } from '../environments/environment';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -51,6 +49,7 @@ import { AdminComponent } from './admin/admin.component';
 import { HomeComponent } from './home/home.component';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { CustomerService } from './service/customer.service';
+import * as firebase from 'firebase';
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,8 +63,8 @@ import { CustomerService } from './service/customer.service';
     AngularFireModule.initializeApp(firebaseConfig, "insurrance"),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    AngularFireStorageModule,
-    AngularFirestoreModule,
+
+    FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,

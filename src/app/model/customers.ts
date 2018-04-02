@@ -1,7 +1,7 @@
 
 export interface Customer{
    
-    name?:string,
+    name? :string,
     
     phone?:string,
  

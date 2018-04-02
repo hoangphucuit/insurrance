@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild, AfterViewInit, OnChanges, Input } from '@angular/core';
 import { Customer } from '../model/customers';
 import { Observable } from 'rxjs/Observable';
 import { CustomerService } from '../service/customer.service';
@@ -11,15 +11,15 @@ import { CustomerService } from '../service/customer.service';
   styleUrls: ['./customer-detail.component.scss']
 })
 export class CustomerDetailComponent implements OnInit {
-customer:Customer;
-  constructor(public customerSvc:CustomerService) { }
+  customer={} as Customer;
+  constructor(public customerSvc:CustomerService) { 
+   
+  }
 
   ngOnInit() {
   }
-  addCustomer(){
-    this.customer.name="phuc";
-    this.customer.phone="01226262121";
-    this.customerSvc.addCourse(this.customer);
+  addCustomer(customer){
+     this.customerSvc.addCustomerSvc(customer);
   }
-
+  
 }
