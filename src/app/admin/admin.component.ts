@@ -7,6 +7,7 @@ import { CustomerService } from '../service/customer.service';
 import { Customer } from '../model/customers';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { DataSource } from '@angular/cdk/table';
+import { Agent } from '../model/agent';
 
 @Component({
   selector: 'app-admin',
@@ -18,6 +19,8 @@ showhide:boolean;
   sourceCustomer:Customer[];
   displayedColumns = ['id', 'name', 'phone', 'address','showhide','editdelete'];
   listCustomer = new MatTableDataSource<Customer>();
+  defaultView="option1";
+  agent= {} as Agent;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   ngAfterViewInit() {//phan trang
@@ -35,6 +38,14 @@ showhide:boolean;
 
   ngOnInit() {
     this.getAllCustomer();
+    
+    this.customerSvc.getSelectView('-L99fmHp5U1SxkFGUJm0').subscribe(cus=> {
+      if(cus)
+      {
+       this.agent = cus;
+       console.log(this.agent.selectView);
+      }
+    });
     
   }
   getAllCustomer(){
@@ -62,6 +73,12 @@ showhide:boolean;
   }
   deleteCustomerByID(id){
     this.customerSvc.deleteCustomer(id);
+  }
+  selectView(event){
+    
+    this.defaultView=event.value;
+    this.customerSvc.updateSelectView('-L99fmHp5U1SxkFGUJm0',event.value);
+    console.log(this.defaultView);
   }
 }
 
