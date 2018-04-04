@@ -12,6 +12,7 @@ customer={} as Customer;
  usersRef:AngularFireList<any>;
  users:Observable<any[]>;
   constructor(private db:AngularFireDatabase) { 
+    this.getCustomersDeleted();
     this.customersRef = this.db.list('customers');
     this.customers = this.customersRef.snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
@@ -70,5 +71,9 @@ updateSelectView(key:string,select:string){
 this.usersRef.update(key,{
   selectView:select,
 });
+}
+getCustomersDeleted(){
+  return this.db.list('customers',ref=>ref.orderByChild('showhide').equalTo(false)).valueChanges();
+
 }
 }

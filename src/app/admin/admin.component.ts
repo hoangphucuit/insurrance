@@ -17,6 +17,7 @@ import { Agent } from '../model/agent';
 export class AdminComponent implements OnInit {
 showhide:boolean;
   sourceCustomer:Customer[];
+  deletedCustomers:Customer[];
   displayedColumns = ['id', 'name', 'phone', 'address','showhide','editdelete','xxx'];
   listCustomer = new MatTableDataSource<Customer>();
   defaultView="option1";
@@ -43,7 +44,6 @@ showhide:boolean;
       if(cus)
       {
        this.agent = cus;
-       console.log(this.agent.selectView);
       }
     });
     
@@ -53,7 +53,13 @@ showhide:boolean;
       
       this.sourceCustomer=customers;
       this.listCustomer.data=customers;
-      console.log(this.listCustomer.data);
+     
+    });
+  }
+  getCustomersDeleted(){
+    this.customerSvc.getCustomersDeleted().subscribe(cus=>{
+      this.deletedCustomers=cus;
+      console.log(this.deletedCustomers);
     });
   }
  applyFilter(filterValue: string) { //search
@@ -81,7 +87,8 @@ showhide:boolean;
     
     this.defaultView=event.value;
     this.customerSvc.updateSelectView('-L99fmHp5U1SxkFGUJm0',event.value);
-    console.log(this.defaultView);
+    
+
   }
 }
 
