@@ -17,7 +17,7 @@ import { Agent } from '../model/agent';
 export class AdminComponent implements OnInit {
 showhide:boolean;
   sourceCustomer:Customer[];
-  displayedColumns = ['id', 'name', 'phone', 'address','showhide','editdelete'];
+  displayedColumns = ['id', 'name', 'phone', 'address','showhide','editdelete','xxx'];
   listCustomer = new MatTableDataSource<Customer>();
   defaultView="option1";
   agent= {} as Agent;
@@ -65,14 +65,17 @@ showhide:boolean;
     this.router.navigate(['/customer']);
   }
   onChange(event,id:string){
-    this.customerSvc.updateShowhide(id,event.checked);
+    
+    this.customerSvc.updateShowhide(id,event.checked);//event.checked la true or false.
     
   }
   editCustomerByID(){
 
   }
   deleteCustomerByID(id){
-    this.customerSvc.deleteCustomer(id);
+    //this.customerSvc.deleteCustomer(id);
+    //khi xoa se disable toggle
+    this.customerSvc.updateShowhide(id,false);
   }
   selectView(event){
     
