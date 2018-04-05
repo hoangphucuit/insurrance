@@ -49,6 +49,7 @@ import { AdminComponent } from './admin/admin.component';
 import { HomeComponent } from './home/home.component';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { CustomerService } from './service/customer.service';
+import { AgentService } from './service/agent.service';
 import * as firebase from 'firebase';
 @NgModule({
   declarations: [
@@ -104,7 +105,8 @@ import * as firebase from 'firebase';
     
   ],
   providers: [
-    CustomerService
+    CustomerService,
+    AgentService
   ],
   bootstrap: [AppComponent]
 })

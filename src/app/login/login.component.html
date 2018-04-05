@@ -1,0 +1,56 @@
+<div class="main">
+    <!--Toolbar-->
+    <mat-toolbar>
+        <button mat-icon-button class="menu-btn" (click)="snav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+
+        <a class="logo">
+            <img src="../../assets/imgs/logo.png" alt="Logo">
+        </a>
+    </mat-toolbar>
+    <!--End Toolbar-->
+    <mat-drawer-container class="content">
+        <img src="../../assets/imgs/slider1.jpeg" alt="" width="100%">
+        <div class="bar-green">
+
+        </div>
+        <div class="login-content">
+            <h1 class="title-login">AGENT'S MANAGEMENT</h1>
+            <div class="login-frame">
+                <mat-grid-list cols="3" rowHeight="2:2">
+                    <mat-grid-tile class="img-login"></mat-grid-tile>
+                    <mat-grid-tile class="login-form-div">
+                        <div class="login-form">
+                            <mat-form-field class="input-form input-login">
+                                <label class="username">Username: </label>
+                                <input matInput [(ngModel)]="agent.email">
+
+                            </mat-form-field>
+                            
+                            <mat-form-field class="input-form input-login">
+                                <label class="username">Password: </label>
+                                <input matInput [(ngModel)]="agent.password">
+
+                            </mat-form-field>  
+                            <button (click)="login(agent)" class="btn-login">Login</button> 
+                            <p class="forgot">Forgot Password?</p>     
+                            <p class="forgot">Forgot Username?</p>     
+                        </div>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="intro-login">
+                        <div>
+                            <h2 class="youcan">You can: </h2>
+                            <p><i class="material-icons">done</i> Check your contract.</p>
+                            <p> <i class="material-icons">done</i>Mange your customer's information.</p>
+                            <p> <i class="material-icons">done</i> Look effective Production.</p>
+                            <p><i class="material-icons">done</i> Watch Company's Manulife.</p>
+                        </div>
+                    </mat-grid-tile>
+
+                </mat-grid-list>
+            </div>
+        </div>
+        <!--End Main Content-->
+    </mat-drawer-container>
+</div>

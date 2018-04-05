@@ -15,6 +15,8 @@ import { Agent } from '../model/agent';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
+  typesort="customers";
+ 
 showhide:boolean;
   sourceCustomer:Customer[];
   deletedCustomers:Customer[];
@@ -38,7 +40,7 @@ showhide:boolean;
   }
 
   ngOnInit() {
-    this.getAllCustomer();
+    this.getCustomerActive();
     
     this.customerSvc.getSelectView('-L99fmHp5U1SxkFGUJm0').subscribe(cus=> {
       if(cus)
@@ -48,6 +50,9 @@ showhide:boolean;
     });
     
   }
+  ionViewDidLoad() {
+    console.log("I'm alive!");
+  }
   getAllCustomer(){
     this.customerSvc.getAllCustomer().subscribe(customers=>{
       
@@ -56,10 +61,20 @@ showhide:boolean;
      
     });
   }
+  getCustomerActive(){
+    this.customerSvc.getCustomersActive().subscribe(customers=>{
+      
+      this.sourceCustomer=customers;
+      this.listCustomer.data=customers;
+     
+    });
+  }
   getCustomersDeleted(){
-    this.customerSvc.getCustomersDeleted().subscribe(cus=>{
-      this.deletedCustomers=cus;
-      console.log(this.deletedCustomers);
+    
+    this.customerSvc.getCustomersDeleted().subscribe(customers=>{
+      this.sourceCustomer=customers;
+      this.listCustomer.data=customers;
+      
     });
   }
  applyFilter(filterValue: string) { //search
@@ -73,7 +88,15 @@ showhide:boolean;
   onChange(event,id:string){
     
     this.customerSvc.updateShowhide(id,event.checked);//event.checked la true or false.
-    
+    //if(event.checked==true && this.sortCustomers=="")
+    if( this.typesort=="customers")
+    {
+      this.getCustomerActive();
+    }
+    if(this.typesort=="deleted")
+    {
+      this.getCustomersDeleted();
+    }
   }
   editCustomerByID(){
 
@@ -81,13 +104,50 @@ showhide:boolean;
   deleteCustomerByID(id){
     //this.customerSvc.deleteCustomer(id);
     //khi xoa se disable toggle
+    console.log(this.typesort);
     this.customerSvc.updateShowhide(id,false);
+    if(this.typesort=="customers")
+    {
+      this.getCustomerActive();
+    }
+    if(this.typesort=="allcustomers")
+    {
+      this.getAllCustomer();
+    }
+    if(this.typesort=="deleted")
+    {
+      this.getCustomersDeleted();
+    }
   }
+  sortCustomers(event){
+    
+    switch(event.value) { 
+      case "deleted": { 
+       this.getCustomersDeleted();
+         break; 
+      }
+      case "customers":{
+        this.getCustomerActive();
+        break;
+      }
+     case "allcustomers":{
+       this.getAllCustomer();
+     }
+   } 
+  }
+ 
   selectView(event){
     
     this.defaultView=event.value;
     this.customerSvc.updateSelectView('-L99fmHp5U1SxkFGUJm0',event.value);
+   
+
+  }
+  selectViewicon(event){
     
+    this.defaultView=event;
+    this.customerSvc.updateSelectView('-L99fmHp5U1SxkFGUJm0',event);
+   
 
   }
 }

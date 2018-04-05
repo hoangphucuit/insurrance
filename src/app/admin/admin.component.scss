@@ -58,7 +58,20 @@ font-weight: bold;
  /*Right Content*/
 
 .right-content {
-    
+    .view-list{
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: #9da6bb;
+        cursor: pointer;
+    }
+    .view-grid{
+        position: absolute;
+        top: 0;
+        right: 1em;
+        color: #9da6bb;
+        cursor: pointer;
+    }
     margin-left: 25%;
     .grid-view{
         .mat-cell{

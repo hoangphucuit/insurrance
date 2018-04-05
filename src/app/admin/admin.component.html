@@ -43,13 +43,21 @@
 
 
         <div class="example-container mat-elevation-z8">
-          <div>
+          <div style="position: relative;">
             <mat-form-field class="search">
               <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Seach">
             </mat-form-field>
-            <button (click)="getCustomersDeleted()">Sort</button>
-         
+           
+            <mat-form-field  class="selectIconview">
+              <mat-select [(value)]="typesort"  (change)="sortCustomers($event)">
+                <mat-option value="allcustomers">All Customer</mat-option>
+                <mat-option value="deleted">Deleted Customers</mat-option>
+                <mat-option value="customers">Customers Active</mat-option>
 
+              </mat-select>
+            </mat-form-field>
+            <i class="material-icons view-list" (click)="selectViewicon('option1')">view_list</i>
+            <i class="material-icons view-grid" (click)="selectViewicon('option2')">view_comfy</i>
             <mat-form-field class="selectIconview">
               <mat-select [(value)]="agent.selectView" (change)="selectView($event)">
 
@@ -65,7 +73,7 @@
     
           <mat-table #table [dataSource]="listCustomer" matSort *ngIf="agent.selectView=='option2'" class="grid-view">
             <!-- Position Column -->
-            
+           
             <ng-container matColumnDef="id">
              
               <mat-cell *matCellDef="let element">No. : {{element.id}} </mat-cell>
@@ -98,7 +106,7 @@
             <ng-container matColumnDef="showhide">
               <!-- <mat-header-cell *matHeaderCellDef> Show/Hide </mat-header-cell> -->
               <mat-cell *matCellDef="let element">
-                <span class="activetoggle">Active: </span><mat-slide-toggle [(ngModel)]="element.showhide" (change)="onChange($event,element.id)" [checked]=element.showhide>
+                <span class="activetoggle">Active: </span><mat-slide-toggle  [(ngModel)]="element.showhide"  (change)="onChange($event,element.id)" [checked]=element.showhide>
                 </mat-slide-toggle>
               </mat-cell>
             </ng-container>
@@ -114,7 +122,7 @@
             <ng-container matColumnDef="xxx">
                 <!-- <mat-header-cell *matHeaderCellDef> </mat-header-cell> -->
                 <mat-cell *matCellDef="let element" class="xxx">
-                    <i class="material-icons" (click)="deleteCustomerByID(element.id)">delete_forever</i>
+                    <i *ngIf="element.showhide==true" class="material-icons" (click)="deleteCustomerByID(element.id)">delete_forever</i>
                   
                   <!-- <mat-icon class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon> -->
                 </mat-cell>
@@ -170,14 +178,14 @@
               <mat-header-cell *matHeaderCellDef> </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 <mat-icon routerLink="/detail/{{element.id}}" class="icon-edit">edit</mat-icon>
-                <mat-icon class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon>
+                <mat-icon *ngIf="element.showhide==true" class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon>
               </mat-cell>
             </ng-container>
             <ng-container matColumnDef="xxx">
                 <mat-header-cell *matHeaderCellDef> </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                   <mat-icon routerLink="/detail/{{element.id}}" class="icon-edit">edit</mat-icon>
-                  <mat-icon class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon>
+                  <mat-icon  class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon>
                 </mat-cell>
               </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

@@ -76,4 +76,8 @@ getCustomersDeleted(){
   return this.db.list('customers',ref=>ref.orderByChild('showhide').equalTo(false)).valueChanges();
 
 }
+getCustomersActive(){
+  return this.db.list('customers',ref=>ref.orderByChild('showhide').equalTo(true)).valueChanges();
+
+}
 }
