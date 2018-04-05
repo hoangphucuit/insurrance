@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './/app-routing.module';
-
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import {
   MatAutocompleteModule,
@@ -47,18 +47,24 @@ import { LoginComponent } from './login/login.component';
 import { CustomersComponent } from './customers/customers.component';
 import { AdminComponent } from './admin/admin.component';
 import { HomeComponent } from './home/home.component';
+import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
+import { CustomerService } from './service/customer.service';
+import * as firebase from 'firebase';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     CustomersComponent,
     AdminComponent,
-    HomeComponent
+    HomeComponent,
+    CustomerDetailComponent
   ],
   imports: [
     AngularFireModule.initializeApp(firebaseConfig, "insurrance"),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+
+    FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
@@ -97,7 +103,9 @@ import { HomeComponent } from './home/home.component';
     AppRoutingModule,
     
   ],
-  providers: [],
+  providers: [
+    CustomerService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
