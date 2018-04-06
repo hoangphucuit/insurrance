@@ -42,7 +42,7 @@ customer={} as Customer;
             birthday: form.controls['birthday'].value,
             address: form.controls['address'].value,
             phone: form.controls['phone'].value,
-            showhide: form.controls['showhide'].value,
+            showhide: form.controls['showhide']?form.controls['showhide'].value:true,
             relation: dataRelation
           }
         }
@@ -54,11 +54,10 @@ customer={} as Customer;
         birthday: form.controls['birthday'].value,
         address: form.controls['address'].value,
         phone: form.controls['phone'].value,
-        showhide: form.controls['showhide'].value,
+        showhide: form.controls['showhide']?form.controls['showhide'].value:true,
         relation: ""
       }
     } 
-    console.log(dataCustomer);
     if (Edit) {
       return tem.update(id, dataCustomer);
     } else if (!Edit){

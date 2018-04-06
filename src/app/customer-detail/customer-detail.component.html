@@ -59,8 +59,8 @@
                         <input matInput placeholder="Customer's Address" [(ngModel)]="customer.address" ngModel name="address" #address="ngModel" required>
                     </mat-form-field>
                 
-                    <input  type="hidden"  [(ngModel)]="customer.showhide" ngModel name="showhide" #showhide="ngModel" required>
-                    
+                    <input *ngIf="checkIdExist"  type="hidden"  [(ngModel)]="customer.showhide" ngModel name="showhide" #showhide="ngModel">
+                   
 
 
                     <div class="relationship-wrapp">
