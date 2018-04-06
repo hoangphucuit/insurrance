@@ -55,7 +55,6 @@ export class CustomerDetailComponent implements OnInit {
     return form.reset();
   }
   SubmitForm(form: NgForm) {
-
     let i = this.relationCounter.length? this.relationCounter[this.relationCounter.length-1] : 0;
     this.loading = true;
     if (form.valid) {
@@ -90,15 +89,11 @@ export class CustomerDetailComponent implements OnInit {
     }
   }
   addRelation() {
-   
     let i = this.relationCounter[this.relationCounter.length-1]? this.relationCounter[this.relationCounter.length-1] : 0;
     this.relationCounter.push(i+1);
-    console.log(this.relationCounter);
   }
   removeRalation(i: number) {
-   
     this.relationCounter.splice(i, 1);
-    console.log(this.relationCounter);
   }
   removeRalationAf(i: number) {
     if (!i) {
