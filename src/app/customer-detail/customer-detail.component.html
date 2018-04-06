@@ -33,29 +33,143 @@
         </mat-drawer>
         <!--Main Content-->
         <mat-drawer-content class="right-content">
+               
             <div class="customer">
-                <p *ngIf="idurl">asdasd</p>
+                
                 <div class="input-info-customer">
+                    <form #form="ngForm" (ngSubmit)="SubmitForm(form)">
                     <div class="title">
-                        <h2>Add new Customer</h2>
+                        <h2>{{headerTitle}}</h2>
                     </div>
+
                     <mat-form-field class="input-form">
-                        <input matInput placeholder="Customer's name" [(ngModel)]="customer.name">
+                        <input matInput placeholder="Customer's name" ngModel name="name" #name="ngModel" required [(ngModel)]="customer.name">
                     </mat-form-field>
                     <mat-form-field class="input-form">
-                        <input matInput [matDatepicker]="picker" [(ngModel)]="customer.birthday" placeholder="Customer's Birthday">
+                        <input matInput [matDatepicker]="picker" placeholder="Customer's Birthday" [(ngModel)]="customer.birthday" ngModel  name="birthday" #birthday="ngModel" required> 
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                     <mat-form-field class="input-form">
-                        <input matInput placeholder="Customer's Phone" [(ngModel)]="customer.phone">
+                        <input matInput  placeholder="Customer's Phone" [(ngModel)]="customer.phone" ngModel name="phone"  #phone="ngModel" required pattern="([0-9]+)">
                     </mat-form-field>
                     <mat-form-field class="input-form">
-                        <input matInput placeholder="Customer's Address" [(ngModel)]="customer.address">
+                        <input matInput placeholder="Customer's Address" [(ngModel)]="customer.address" ngModel name="address" #address="ngModel" required>
                     </mat-form-field>
+                
+                    <input *ngIf="checkIdExist"  type="hidden"  [(ngModel)]="customer.showhide" ngModel name="showhide" #showhide="ngModel">
+                   
+
+
+                    <div class="relationship-wrapp">
+                            <div class="add-relation-box">
+                                    <button mat-fab (click)="addRelation()" type="button">
+                                            <mat-icon >add</mat-icon>
+                                    </button>
+                                    <strong>Add relationship</strong>
+                            </div>
+                            
+                            <div class="spinner" *ngIf="relationSpinner&&idurl">
+                                <mat-spinner></mat-spinner>
+                            </div>
+
+                            <div class="relation-form">
+                                    <!-- ADD -->
+                                    <div class="box" *ngFor="let item of relationCounter; let i=index">
+                                        <button style="float: left" mat-mini-fab>{{i+1}}</button>
+                                        <!-- Not exist relation -->
+                                        <i class="material-icons" style="float: right; cursor: pointer" (click)="removeRalation(i)">remove_circle</i>
+                                        <mat-accordion>
+                                        <mat-expansion-panel>
+                                        <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            Personal relationship
+                                        </mat-panel-title>
+                                        </mat-expansion-panel-header>
+                                        <!-- Edit -->
+                                        <mat-form-field class="input-form" *ngIf="checkIdExist">
+                                            <input matInput placeholder="Name" *ngIf="customer.relation[item-1]" [(ngModel)]="customer.relation[item-1].name"  ngModel name="r_name_{{item}}" #r_name_item="ngModel" required>
+                                            <input matInput placeholder="Name" *ngIf="!customer.relation[item-1]" ngModel name="r_name_{{item}}" #r_name_item="ngModel" required>
+                                        </mat-form-field>
+
+                                        <!-- Add -->
+                                        <mat-form-field class="input-form" *ngIf="!checkIdExist">
+                                            <input matInput placeholder="Name" ngModel name="r_name_{{item}}" #r_name_item="ngModel" required>
+                                        </mat-form-field>
+
+                                        <mat-form-field *ngIf="checkIdExist">
+                                            <!-- Not Exist relation -->
+                                                <mat-select placeholder="Relationship" *ngIf="!customer.relation[item-1]" ngModel name="r_relate_{{item}}" #r_relate_i="ngModel" required>
+                                                  <mat-option *ngFor="let level of relationLevel" [value]="level">
+                                                    {{level}}
+                                                  </mat-option>
+                                                </mat-select>
+                                            <!-- exist relation -->
+                                                <mat-select placeholder="Relationship" *ngIf="customer.relation[item-1]" [(ngModel)]="customer.relation[item-1].relation" ngModel  name="r_relate_{{item}}" #r_relate_item="ngModel" required>
+                                                        <mat-option *ngFor="let level of relationLevel" [value]="level">
+                                                          {{level}}
+                                                        </mat-option>
+                                                </mat-select>
+                                        </mat-form-field>
+
+                                        <mat-form-field *ngIf="!checkIdExist">
+                                            <!-- Not Exist relation -->
+                                                <mat-select placeholder="Relationship" ngModel name="r_relate_{{item}}" #r_relate_i="ngModel" required>
+                                                  <mat-option *ngFor="let level of relationLevel" [value]="level">
+                                                    {{level}}
+                                                  </mat-option>
+                                                </mat-select>
+                                        </mat-form-field>
+                                        <!-- Edit Phone -->
+                                        <mat-form-field class="input-form" *ngIf="checkIdExist">
+                                                <input matInput placeholder="Phone" *ngIf="customer.relation[item-1]" [(ngModel)]="customer.relation[item-1].phone" ngModel name="r_phone_{{item}}" #r_phone_item="ngModel" pattern="([0-9]+)">
+                                                <input matInput placeholder="Phone" *ngIf="!customer.relation[item-1]" ngModel name="r_phone_{{item}}" #r_phone_item="ngModel" pattern="([0-9]+)">
+                                        </mat-form-field>
+                                        <!-- Add Phone -->
+                                        <mat-form-field class="input-form" *ngIf="!checkIdExist">
+                                            <input matInput placeholder="Phone" ngModel name="r_phone_{{item}}" #r_phone_item="ngModel" pattern="([0-9]+)">
+                                        </mat-form-field>
+
+                                        <!-- Edit Address -->
+                                        <mat-form-field class="input-form" *ngIf="checkIdExist">
+                                            <input matInput placeholder="Address" *ngIf="customer.relation[item-1]" [(ngModel)]="customer.relation[item-1].address" ngModel name="r_address_{{item}}" #r_address_item="ngModel">
+                                            <input matInput placeholder="Address" *ngIf="!customer.relation[item-1]" ngModel name="r_address_{{item}}" #r_address_item="ngModel">
+                                        </mat-form-field>
+                                        <!-- Add Address -->
+                                        <mat-form-field class="input-form" *ngIf="!checkIdExist">
+                                            <input matInput placeholder="Address" ngModel name="r_address_{{item}}" #r_address_item="ngModel">
+                                        </mat-form-field>
+
+                                        <!-- Edit DatePicker -->
+                                        <mat-form-field class="input-form" *ngIf="checkIdExist">
+                                            <div *ngIf="customer.relation[item-1]">
+                                                <input matInput [matDatepicker]="picker1" placeholder="Birthday" [(ngModel)]="customer.relation[item-1].birthday" ngModel name="r_birthday_{{item}}" #r_birthday_item="ngModel">
+                                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker1></mat-datepicker>
+                                            </div>
+                                            <div *ngIf="!customer.relation[item-1]">
+                                                <input matInput [matDatepicker]="picker1" placeholder="Birthday" ngModel name="r_birthday_{{item}}" #r_birthday_item="ngModel">
+                                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker1></mat-datepicker>
+                                            </div>
+                                        </mat-form-field>
+                                        <!-- Add DatePicker -->
+                                        <mat-form-field class="input-form" *ngIf="!checkIdExist">
+                                                <input matInput [matDatepicker]="picker1" placeholder="Birthday" ngModel name="r_birthday_{{item}}" #r_birthday_item="ngModel">
+                                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker1></mat-datepicker>
+                                        </mat-form-field>      
+                                        </mat-expansion-panel>
+                                        </mat-accordion>
+                                    </div>
+                            </div>
+                    </div>
+                    <mat-progress-bar mode="indeterminate" *ngIf="loading" style="margin: 20px 0"></mat-progress-bar>
+                    <button type="button" mat-raised-button (click)="_resetForm(form)">Reset</button>
+                    <button type="button" mat-raised-button (click)="_restore()" *ngIf="checkIdExist">Restore</button>
+                    <button mat-raised-button color="primary" class="add-btn" type="submit">Submit</button>
                     
-                    <button mat-raised-button color="primary" class="add-btn" (click)="addCustomer(customer)">Submit</button>
-                    <button mat-raised-button color="warn" class="cancel-btn">Cancel</button>
+                </form>
                 </div>
 
 

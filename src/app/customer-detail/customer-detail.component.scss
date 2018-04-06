@@ -95,6 +95,28 @@ font-weight: bold;
 /*End right content*/
 /*End Content*/
 
+
+
+.add-relation-box {
+    width: 100%;
+    text-align: left;
+    padding: 20px 0;
+}
+.relation-form {
+    .box {
+        width: 90%;
+        height: auto;
+        padding: 15px;
+        margin: 20px;
+        box-shadow: 3px 8px 20px #888888
+    }
+}
+.spinner {
+    width: 132px;
+    height: auto;
+    padding: 20px 0;
+    margin: auto;
+}
 @media only screen and (max-width: 768px) {
     .menu-btn{
         display: block;
@@ -103,3 +125,4 @@ font-weight: bold;
         width: 40%;
     }
 }
+

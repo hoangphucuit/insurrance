@@ -6,4 +6,5 @@ export interface Customer{
     phone?:string,
     birthday?:Date,
     showhide?:boolean,
+    relation?: Array<any> 
 }

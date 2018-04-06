@@ -3,48 +3,98 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Customer } from '../model/customers';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { NgForm } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 import { Agent } from '../model/agent';
 @Injectable()
 export class CustomerService {
 customer={} as Customer;
  customersRef:AngularFireList<any>;
  customers:Observable<any[]>;
+ 
  usersRef:AngularFireList<any>;
  users:Observable<any[]>;
-  constructor(private db:AngularFireDatabase) { 
+  constructor(private db:AngularFireDatabase, public snackBar: MatSnackBar) { 
     this.getCustomersDeleted();
-    this.customersRef = this.db.list('customers');
-    this.customers = this.customersRef.snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    });
     this.usersRef = this.db.list('users');
     this.users = this.usersRef.snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    });
+    this.customersRef = this.db.list('customers');
+    this.customers = this.customersRef.snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     });
   }
   getAllCustomer(){
     return this.db.list('customers').valueChanges();
-    
   }
-  addCustomerSvc(customer){
-  //  this.db.list('customers').push({
+  _addEditCustomerSvc(form: NgForm, counter: number, Edit: boolean, id?: string){
+    var tem = this.db.list('customers');
+    const getKey = tem.push({});
+    let dataCustomer = {};
+    let dataRelation = [];
    
-  //    name:customer.name,
-  //    phone:customer.phone,
-  //    showhide:true,
-  //  });
-  var tem = this.db.list('customers');
-  const getKey = tem.push({});
+    if (counter > 0) {
+      //Exist Relation
+      for (var i = 0; i <= counter; i ++) {
+        if (form.controls['r_name_'+i]) {
+          dataRelation.push({
+            name: form.controls['r_name_'+i].value,
+            relation: form.controls['r_relate_'+i].value,
+            phone: form.controls['r_phone_'+i].value,
+            address: form.controls['r_address_'+i].value,
+            birthday: form.controls['r_birthday_'+i].value
+          })
+          dataCustomer = {
+            id: id? id: getKey.key,
+            name: form.controls['name'].value,
+            birthday: form.controls['birthday'].value,
+            address: form.controls['address'].value,
+            phone: form.controls['phone'].value,
+            showhide: form.controls['showhide']?form.controls['showhide'].value:true,
+            relation: dataRelation
+          }
+        }
+      }
+    } else {
+      dataCustomer = {
+        id: id? id: getKey.key,
+        name: form.controls['name'].value,
+        birthday: form.controls['birthday'].value,
+        address: form.controls['address'].value,
+        phone: form.controls['phone'].value,
+        showhide: form.controls['showhide']?form.controls['showhide'].value:true,
+        relation: ""
+      }
+    } 
+    if (Edit) {
+      return tem.update(id, dataCustomer);
+    } else if (!Edit){
+      return getKey.set(dataCustomer) && tem.update(getKey.key, dataCustomer);
+    }
+  }
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
+  dateFormat(date: Date) {
+   var string= JSON.stringify(date).split('T')[0].split('"')[1];
+   var year =  string.split('-')[0];
+   var month =  string.split('-')[1];
+   var day =  Number(string.split('-')[2])+1;
+   return month+'/'+day+'/'+year;
+  }
+  updateShowhide(key: string,showhide:boolean){
+    this.customersRef.update(key,{
+      showhide:showhide,
+    });
+  }
   
-  getKey.set({
-    id: getKey.key,
-    name: customer.name,
-    phone:customer.phone,
-    address:customer.address,
-   
-    showhide:true,
-  });
-}
+  getCustomer(id: string) {
+    return this.db.object(`customers/${id}`).valueChanges();
+  }
+
 selectView(){
   var tem = this.db.list('users');
     const getKey = tem.push({});
@@ -59,11 +109,7 @@ getSelectView(id:string) {
   
     return this.db.object(`users/${id}`).valueChanges();
  }
-updateShowhide(key: string,showhide:boolean){
-  this.customersRef.update(key,{
-    showhide:showhide,
-  });
-}
+
 deleteCustomer(id:string){
   this.customersRef.remove(id);
 }
