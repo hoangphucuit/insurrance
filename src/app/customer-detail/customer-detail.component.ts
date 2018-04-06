@@ -23,7 +23,7 @@ export class CustomerDetailComponent implements OnInit {
   checkIdExist: boolean = false;
   submited: boolean = false;
   relationCounter: any;
-  headerTitle: string = "CUSTOMER PAGE";
+  headerTitle: string = "";
   relationLevel = ['Father', 'Mother', 'Brother', 'Sister', 'Son', 'Daughter','Grandfather', 'Grandmother'];
 
   constructor(public customerSvc:CustomerService,private activeroute: ActivatedRoute, ) { 
@@ -36,7 +36,7 @@ export class CustomerDetailComponent implements OnInit {
      if (cus) {
         this.customer = cus;
         this.checkIdExist=true;
-        this.headerTitle += '/EDIT';
+        this.headerTitle = 'CUSTOMER PAGE/EDIT';
         if (!this.customer.relation) {
           this.customer.relation = [];
         } 
@@ -45,7 +45,7 @@ export class CustomerDetailComponent implements OnInit {
           this.relationCounter.push(i);
         }
         this.relationSpinner = false;
-     } else {this.headerTitle += '/ADD';}
+     } else {this.headerTitle = 'CUSTOMER PAGE/ADD';}
    })
   }
   _restore() {

@@ -58,7 +58,11 @@
                     <mat-form-field class="input-form">
                         <input matInput placeholder="Customer's Address" [(ngModel)]="customer.address" ngModel name="address" #address="ngModel" required>
                     </mat-form-field>
+                
+                    <input  type="hidden"  [(ngModel)]="customer.showhide" ngModel name="showhide" #showhide="ngModel" required>
                     
+
+
                     <div class="relationship-wrapp">
                             <div class="add-relation-box">
                                     <button mat-fab (click)="addRelation()" type="button">
