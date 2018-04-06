@@ -51,6 +51,8 @@ import { CustomerDetailComponent } from './customer-detail/customer-detail.compo
 import { CustomerService } from './service/customer.service';
 import { AgentService } from './service/agent.service';
 import * as firebase from 'firebase';
+import { DialogdeleteComponent } from './dialogdelete/dialogdelete.component';
+import { DialogrecoveryComponent } from './dialogrecovery/dialogrecovery.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,8 +60,11 @@ import * as firebase from 'firebase';
     CustomersComponent,
     AdminComponent,
     HomeComponent,
-    CustomerDetailComponent
+    CustomerDetailComponent,
+    DialogdeleteComponent,
+    DialogrecoveryComponent
   ],
+  entryComponents: [ DialogdeleteComponent,DialogrecoveryComponent ],
   imports: [
     AngularFireModule.initializeApp(firebaseConfig, "insurrance"),
     AngularFireDatabaseModule,
@@ -106,7 +111,8 @@ import * as firebase from 'firebase';
   ],
   providers: [
     CustomerService,
-    AgentService
+    AgentService,
+
   ],
   bootstrap: [AppComponent]
 })

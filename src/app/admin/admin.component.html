@@ -45,7 +45,8 @@
         <div class="example-container mat-elevation-z8">
           <div style="position: relative;">
             <mat-form-field class="search">
-              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Seach">
+              <label>Search</label>
+              <input matInput (keyup)="applyFilter($event.target.value)" >
             </mat-form-field>
            
             <mat-form-field  class="selectIconview">
@@ -106,8 +107,11 @@
             <ng-container matColumnDef="showhide">
               <!-- <mat-header-cell *matHeaderCellDef> Show/Hide </mat-header-cell> -->
               <mat-cell *matCellDef="let element">
-                <span class="activetoggle">Active: </span><mat-slide-toggle  [(ngModel)]="element.showhide"  (change)="onChange($event,element.id)" [checked]=element.showhide>
+                <span class="activetoggle">Active: </span>
+                <mat-slide-toggle  [(ngModel)]="element.showhide" [disabled]="true" (change)="onChange($event,element.id)" [checked]=element.showhide>
                 </mat-slide-toggle>
+             
+              
               </mat-cell>
             </ng-container>
             <!-- Editdelete Column -->
@@ -122,8 +126,8 @@
             <ng-container matColumnDef="xxx">
                 <!-- <mat-header-cell *matHeaderCellDef> </mat-header-cell> -->
                 <mat-cell *matCellDef="let element" class="xxx">
-                    <i *ngIf="element.showhide==true" class="material-icons" (click)="deleteCustomerByID(element.id)">delete_forever</i>
-                  
+                    <i *ngIf="element.showhide==true" class="material-icons" (click)="deleteCustomerByID(element.id,element.name)">delete_forever</i>
+                    <i *ngIf="element.showhide==false" class="material-icons" (click)="recoverCustomerByID(element.id,element.name)">cached</i>
                   <!-- <mat-icon class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon> -->
                 </mat-cell>
               </ng-container>
@@ -169,7 +173,7 @@
             <ng-container matColumnDef="showhide">
               <mat-header-cell *matHeaderCellDef> Show/Hide </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                <mat-slide-toggle [(ngModel)]="element.showhide" (change)="onChange($event,element.id)" [checked]=element.showhide>
+                <mat-slide-toggle [(ngModel)]="element.showhide" [disabled]="true" [checked]=element.showhide>
                 </mat-slide-toggle>
               </mat-cell>
             </ng-container>

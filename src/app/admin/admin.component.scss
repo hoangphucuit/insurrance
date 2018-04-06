@@ -220,7 +220,7 @@ font-weight: bold;
 
 
 .mat-primary{
-    color: #0b7e3f;
+    color: #000;
 }
 /deep/ .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar{
     background-color: #40bf40;
@@ -242,4 +242,10 @@ font-weight: bold;
 }
 /deep/ .mat-select-arrow{
     color: #0b7e3f;
+}
+/deep/ .mat-disabled .mat-slide-toggle-thumb{
+    background: #0b7e3f;
+}
+/deep/ .mat-disabled .mat-slide-toggle-bar{
+    background: #40bf40;
 }
