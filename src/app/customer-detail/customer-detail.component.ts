@@ -23,6 +23,7 @@ export class CustomerDetailComponent implements OnInit {
   checkIdExist: boolean = false;
   submited: boolean = false;
   relationCounter: any;
+  headerTitle: string = "CUSTOMER PAGE";
   relationLevel = ['Father', 'Mother', 'Brother', 'Sister', 'Son', 'Daughter','Grandfather', 'Grandmother'];
 
   constructor(public customerSvc:CustomerService,private activeroute: ActivatedRoute, ) { 
@@ -35,23 +36,28 @@ export class CustomerDetailComponent implements OnInit {
      if (cus) {
         this.customer = cus;
         this.checkIdExist=true;
+        this.headerTitle += '/EDIT';
         if (!this.customer.relation) {
           this.customer.relation = [];
         } 
-        if (this.submited == false) {
-          for (var i =1; i <= this.customer.relation.length; i ++) {
-            this.relationCounter.push(i);
-          }
+        this.relationCounter = [];
+        for (var i =1; i <= this.customer.relation.length; i ++) {
+          this.relationCounter.push(i);
         }
         this.relationSpinner = false;
-     }
+     } else {this.headerTitle += '/ADD';}
    })
+  }
+  _restore() {
+    this.ngOnInit();
+  }
+  _resetForm(form: NgForm) {
+    return form.reset();
   }
   SubmitForm(form: NgForm) {
 
     let i = this.relationCounter.length? this.relationCounter[this.relationCounter.length-1] : 0;
     this.loading = true;
-    this.submited = true;
     if (form.valid) {
         if (this.checkIdExist) {
           //Edit

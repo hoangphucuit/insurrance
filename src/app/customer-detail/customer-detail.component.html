@@ -41,7 +41,7 @@
                 <div class="input-info-customer">
                     <form #form="ngForm" (ngSubmit)="SubmitForm(form)">
                     <div class="title">
-                        <h2>Add new Customer</h2>
+                        <h2>{{headerTitle}}</h2>
                     </div>
 
                     <mat-form-field class="input-form">
@@ -120,12 +120,12 @@
                                         </mat-form-field>
                                         <!-- Edit Phone -->
                                         <mat-form-field class="input-form" *ngIf="checkIdExist">
-                                                <input matInput placeholder="Phone" *ngIf="customer.relation[item-1]" [(ngModel)]="customer.relation[item-1].phone" ngModel name="r_phone_{{item}}" #r_phone_item="ngModel">
-                                                <input matInput placeholder="Phone" *ngIf="!customer.relation[item-1]" ngModel name="r_phone_{{item}}" #r_phone_item="ngModel">
+                                                <input matInput placeholder="Phone" *ngIf="customer.relation[item-1]" [(ngModel)]="customer.relation[item-1].phone" ngModel name="r_phone_{{item}}" #r_phone_item="ngModel" pattern="([0-9]+)">
+                                                <input matInput placeholder="Phone" *ngIf="!customer.relation[item-1]" ngModel name="r_phone_{{item}}" #r_phone_item="ngModel" pattern="([0-9]+)">
                                         </mat-form-field>
                                         <!-- Add Phone -->
                                         <mat-form-field class="input-form" *ngIf="!checkIdExist">
-                                            <input matInput placeholder="Phone" ngModel name="r_phone_{{item}}" #r_phone_item="ngModel">
+                                            <input matInput placeholder="Phone" ngModel name="r_phone_{{item}}" #r_phone_item="ngModel" pattern="([0-9]+)">
                                         </mat-form-field>
 
                                         <!-- Edit Address -->
@@ -163,8 +163,10 @@
                             </div>
                     </div>
                     <mat-progress-bar mode="indeterminate" *ngIf="loading" style="margin: 20px 0"></mat-progress-bar>
+                    <button type="button" mat-raised-button (click)="_resetForm(form)">Reset</button>
+                    <button type="button" mat-raised-button (click)="_restore()" *ngIf="checkIdExist">Restore</button>
                     <button mat-raised-button color="primary" class="add-btn" type="submit">Submit</button>
-                    <button mat-raised-button color="warn" class="cancel-btn">Cancel</button>
+                    
                 </form>
                 </div>
 

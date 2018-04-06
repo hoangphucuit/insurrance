@@ -18,14 +18,14 @@ customer={} as Customer;
   }
   getAllCustomer(){
     return this.db.list('customers').valueChanges();
-    
   }
   _addEditCustomerSvc(form: NgForm, counter: number, Edit: boolean, id?: string){
     var tem = this.db.list('customers');
+    const getKey = tem.push({});
     let dataCustomer = {};
     let dataRelation = [];
-    const getKey = tem.push({});
-    if (counter != 0) {
+   
+    if (counter > 0) {
       //Exist Relation
       for (var i = 0; i <= counter; i ++) {
         if (form.controls['r_name_'+i]) {
@@ -58,11 +58,10 @@ customer={} as Customer;
         relation: ""
       }
     } 
-
     if (Edit) {
       return tem.update(id, dataCustomer);
     } else if (!Edit){
-      return getKey.set(dataCustomer);
+      return getKey.set(dataCustomer) && tem.update(getKey.key, dataCustomer);
     }
   }
   openSnackBar(message: string, action: string) {
