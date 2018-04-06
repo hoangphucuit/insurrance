@@ -108,7 +108,7 @@
               <!-- <mat-header-cell *matHeaderCellDef> Show/Hide </mat-header-cell> -->
               <mat-cell *matCellDef="let element">
                 <span class="activetoggle">Active: </span>
-                <mat-slide-toggle  [(ngModel)]="element.showhide" [disabled]="true" (change)="onChange($event,element.id)" [checked]=element.showhide>
+                <mat-slide-toggle  [(ngModel)]="element.showhide" [disabled]="true"  [checked]=element.showhide>
                 </mat-slide-toggle>
              
               
