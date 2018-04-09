@@ -4,7 +4,7 @@
 }
 /*Toolbar*/
 mat-toolbar{
-    background-color:#20333d;
+    background-image:url('../../assets/imgs/header.png');
     text-align: center;
 }
 .menu-btn{
@@ -26,7 +26,7 @@ font-weight: bold;
   }
 .content .menu-left{
     width: 25%;
-    background-color: #384b5c;
+    background-color: #0b7e3f;
 }
 .content .noti{
     background-color: #383e40;
@@ -56,13 +56,24 @@ font-weight: bold;
     .customer{
         padding:2em;
         color: #384b5c;
-       
+        .add-relation-box {
+            width: 100%;
+            text-align: left;
+            padding: 20px 0;
+            .add-relation{
+                background: #0b7e3f;
+              
+                .add-icon{
+                    color: #ffffff;
+                }
+            }
+        }
         .input-info-customer{
             webkit-box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
             box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
             text-align: center;
             padding: 3em 4em 4em 4em;
-            width: 70%;
+            
             margin:0 auto;
             .add-btn{
                 background: #3191d8;
@@ -117,12 +128,53 @@ font-weight: bold;
     padding: 20px 0;
     margin: auto;
 }
+
+.loadOVerScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color: #000000, $alpha: 0.3);
+    z-index: 1000
+}
+
+@media only screen and (min-width: 768px) {
+    .menu-btn{
+        display: block;
+    }
+    .content .menu-left {
+        width: 40%;
+    }
+    .loadOVerScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba($color: #000000, $alpha: 0.3);
+        z-index: 1000;
+        padding-left: 650px;
+        padding-top: 350px;
+    }
+}
 @media only screen and (max-width: 768px) {
     .menu-btn{
         display: block;
     }
     .content .menu-left {
         width: 40%;
+    }
+    .loadOVerScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba($color: #000000, $alpha: 0.3);
+        z-index: 1000;
+        padding-left: 350px;
+        padding-top: 350px;
     }
 }
 

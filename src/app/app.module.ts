@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './/app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import {
   MatAutocompleteModule,
@@ -49,7 +49,10 @@ import { AdminComponent } from './admin/admin.component';
 import { HomeComponent } from './home/home.component';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { CustomerService } from './service/customer.service';
+import { AgentService } from './service/agent.service';
 import * as firebase from 'firebase';
+import { DialogdeleteComponent } from './dialogdelete/dialogdelete.component';
+import { DialogrecoveryComponent } from './dialogrecovery/dialogrecovery.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,13 +60,16 @@ import * as firebase from 'firebase';
     CustomersComponent,
     AdminComponent,
     HomeComponent,
-    CustomerDetailComponent
+    CustomerDetailComponent,
+    DialogdeleteComponent,
+    DialogrecoveryComponent
   ],
+  entryComponents: [ DialogdeleteComponent,DialogrecoveryComponent ],
   imports: [
     AngularFireModule.initializeApp(firebaseConfig, "insurrance"),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-
+    ReactiveFormsModule,
     FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -104,7 +110,9 @@ import * as firebase from 'firebase';
     
   ],
   providers: [
-    CustomerService
+    CustomerService,
+    AgentService,
+
   ],
   bootstrap: [AppComponent]
 })
