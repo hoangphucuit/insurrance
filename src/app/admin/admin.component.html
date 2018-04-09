@@ -8,8 +8,8 @@
     <a class="logo"><img src="../../assets/imgs/logo.png" alt="Logo"></a>
   </mat-toolbar>
   <!--End Toolbar-->
-  <mat-drawer-container class="content">
-    <mat-drawer #snav class="menu-left" mode="side" opened="true">
+  <mat-drawer-container class="content" autosize>
+    <mat-drawer #snav class="menu-left" mode="side" opened="false" >
       <div class="noti">
         <span>
           <i class="material-icons">brightness_low</i>
@@ -59,14 +59,14 @@
             </mat-form-field>
             <i class="material-icons view-list" (click)="selectViewicon('option1')">view_list</i>
             <i class="material-icons view-grid" (click)="selectViewicon('option2')">view_comfy</i>
-            <mat-form-field class="selectIconview">
+            <!-- <mat-form-field class="selectIconview">
               <mat-select [(value)]="agent.selectView" (change)="selectView($event)">
 
                 <mat-option value="option1">List</mat-option>
                 <mat-option value="option2">Grid</mat-option>
 
               </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
 
           </div>
 <!--Grid View________________________________________________________________ -->
@@ -126,8 +126,8 @@
             <ng-container matColumnDef="xxx">
                 <!-- <mat-header-cell *matHeaderCellDef> </mat-header-cell> -->
                 <mat-cell *matCellDef="let element" class="xxx">
-                    <i *ngIf="element.showhide==true" class="material-icons" (click)="deleteCustomerByID(element.id,element.name)">delete_forever</i>
-                    <i *ngIf="element.showhide==false" class="material-icons" (click)="recoverCustomerByID(element.id,element.name)">cached</i>
+                    <i *ngIf="element.showhide==true" class="material-icons delete" (click)="deleteCustomerByID(element.id,element.name)">delete_forever</i>
+                    <i *ngIf="element.showhide==false" class="material-icons recovery" (click)="recoverCustomerByID(element.id,element.name)">cached</i>
                   <!-- <mat-icon class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon> -->
                 </mat-cell>
               </ng-container>
@@ -183,13 +183,15 @@
               <mat-cell *matCellDef="let element">
                 <mat-icon routerLink="/detail/{{element.id}}" class="icon-edit">edit</mat-icon>
                 <mat-icon *ngIf="element.showhide==true" class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon>
+                <i *ngIf="element.showhide==false" class="material-icons icon-list-recovery" (click)="recoverCustomerByID(element.id,element.name)">cached</i>
               </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="xxx">
+            <ng-container matColumnDef="xxx" style="display:none">
                 <mat-header-cell *matHeaderCellDef> </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                   <mat-icon routerLink="/detail/{{element.id}}" class="icon-edit">edit</mat-icon>
                   <mat-icon  class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon>
+                 
                 </mat-cell>
               </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

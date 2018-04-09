@@ -26,6 +26,7 @@ showhide:boolean;
   listCustomer = new MatTableDataSource<Customer>();
   defaultView="option1";
   agent= {} as Agent;
+ 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   ngAfterViewInit() {//phan trang
@@ -34,12 +35,14 @@ showhide:boolean;
     
   }
   constructor(
+    
     private router: Router,
     public customerSvc:CustomerService,
     public dialog: MatDialog
   ) {
+
     this.getCustomerActive();
-    
+  
     
   }
 
@@ -66,6 +69,9 @@ showhide:boolean;
       
       this.sourceCustomer=customers;
       this.listCustomer.data=customers;
+      this.listCustomer.data= this.listCustomer.data.filter(a=>
+        a.showhide==true
+      );
      
     });
   }

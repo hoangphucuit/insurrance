@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Agent } from '../model/agent';
+import { query } from '@angular/core/src/animation/dsl';
 @Injectable()
 export class CustomerService {
 customer={} as Customer;
@@ -15,6 +16,7 @@ customer={} as Customer;
  usersRef:AngularFireList<any>;
  users:Observable<any[]>;
   constructor(private db:AngularFireDatabase, public snackBar: MatSnackBar) { 
+
     this.getCustomersDeleted();
     this.usersRef = this.db.list('users');
     this.users = this.usersRef.snapshotChanges().map(changes => {
@@ -123,7 +125,9 @@ getCustomersDeleted(){
 
 }
 getCustomersActive(){
-  return this.db.list('customers',ref=>ref.orderByChild('showhide').equalTo(true)).valueChanges();
+  //return this.db.list('customers',ref=>ref.orderByChild('showhide').equalTo(true)).valueChanges();
+return this.db.list('customers',ref=>ref.orderByChild('name').orderByKey()).valueChanges();
 
 }
+
 }

@@ -14,11 +14,12 @@ mat-toolbar{
     text-align: center;
 }
 .menu-btn{
-    display: none;
+    //display: none;
     color:#ffffff;
 }
 .logo{
 margin:0 auto;
+
 color:#ffffff;
 font-weight: bold;
 }
@@ -33,6 +34,8 @@ font-weight: bold;
 .content .menu-left{
     width: 25%;
     background-color: #0b7e3f;
+    transition-duration:0.5s;
+    //transform: translate3d(-280px, 0px, 0);
 }
 .content .noti{
     background-color: #383e40;
@@ -52,6 +55,7 @@ font-weight: bold;
     font-weight: bold;
     color:#ffffff;
     padding: 1.5em;
+    cursor: pointer;
 }
 
  /*End Menu left*/
@@ -72,7 +76,7 @@ font-weight: bold;
         color: #9da6bb;
         cursor: pointer;
     }
-    margin-left: 25%;
+    //margin-left: 25%;
     .grid-view{
         .mat-cell{
             padding-top: 10px;
@@ -84,9 +88,15 @@ font-weight: bold;
         .xxx{
             position: absolute;
             right: -0.3em;
-            color: rgb(240, 83, 83);
+           
             top: -0.5em;
             cursor: pointer;
+            .delete{
+                color: red;
+            }
+            .recovery{
+               color:grey;
+            }
         }
       
         .icon-title{
@@ -133,6 +143,9 @@ font-weight: bold;
             color:rgb(226, 76, 76);
             cursor: pointer;
         }
+        .icon-list-recovery{
+            color:rgb(179, 179, 166);
+        }
         .add-customer{
             margin-bottom: 2em;
             .add-btn{
@@ -158,8 +171,9 @@ font-weight: bold;
   .selectIconview{
     min-height: 64px;
     float: right;
-    width: 20%;
-    padding: 8px 24px 0;
+    width: 30%;
+    padding: 25px 24px 0;
+    font-size: 13px;
   }
 .example-container {
     display: flex;
@@ -177,12 +191,11 @@ font-weight: bold;
 /*End Content*/
 
 @media only screen and (max-width: 768px) {
-    .menu-btn{
-        display: block;
-    }
-    .content .menu-left {
-        width: 40%;
-    }
+   
+    
+}
+@media only screen and (min-width: 992px) {
+   
 }
 
 .mat-cell, .mat-header-cell{
@@ -194,7 +207,7 @@ font-weight: bold;
 /*Grid View*/
 .grid-view .mat-header-row,.grid-view .mat-row{
     display: grid;
-    width: 32.3%;
+    width: 30%;
     max-height: 150px;
     overflow: hidden;
     float: left;
@@ -243,11 +256,11 @@ font-weight: bold;
 /deep/ .mat-select-arrow{
     color: #0b7e3f;
 }
-/*
-/deep/ .mat-disabled .mat-slide-toggle-thumb{
-    background: #0b7e3f;
-}
 
-/deep/ .mat-disabled .mat-slide-toggle-bar{
-    background: #40bf40;
-}*/
+// /deep/ .mat-disabled .mat-slide-toggle-thumb{
+//     background: #0b7e3f;
+// }
+
+// /deep/ .mat-disabled .mat-slide-toggle-bar{
+//     background: #40bf40;
+// }
