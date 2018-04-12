@@ -3,9 +3,10 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Customer } from '../model/customers';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { NgForm, FormGroup } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Agent } from '../model/agent';
+import { query } from '@angular/core/src/animation/dsl';
 @Injectable()
 export class CustomerService {
 customer={} as Customer;
@@ -73,15 +74,28 @@ deleteCustomer(id:string){
   this.customersRef.remove(id);
 }
 updateSelectView(key:string,select:string){
-this.usersRef.update(key,{
-  selectView:select,
-});
+  if(select=="option1")
+  {
+    this.usersRef.update(key,{
+      selectView:true,
+      selectView2:false
+    });
+  }
+  else{
+    this.usersRef.update(key,{
+      selectView:false,
+      selectView2:true
+    });
+  }
 }
 getCustomersDeleted(){
   return this.db.list('customers',ref=>ref.orderByChild('showhide').equalTo(false)).valueChanges();
 
 }
 getCustomersActive(){
-   return this.db.list('customers',ref=>ref.orderByChild('name')).valueChanges();
+  //return this.db.list('customers',ref=>ref.orderByChild('showhide').equalTo(true)).valueChanges();
+return this.db.list('customers',ref=>ref.orderByChild('name')).valueChanges();
+
 }
+
 }

@@ -8,7 +8,7 @@ mat-toolbar{
     text-align: center;
 }
 .menu-btn{
-    display: none;
+  
     color:#ffffff;
 }
 .logo{
@@ -27,6 +27,7 @@ font-weight: bold;
 .content .menu-left{
     width: 25%;
     background-color: #0b7e3f;
+    transition-duration: 0.5s;
 }
 .content .noti{
     background-color: #383e40;
@@ -46,13 +47,14 @@ font-weight: bold;
     font-weight: bold;
     color:#ffffff;
     padding: 1.5em;
+    cursor: pointer;
 }
 
  /*End Menu left*/
  /*Right Content*/
 
 .right-content {
-    margin-left: 25%;
+    //margin-left: 25%;
     .customer{
         padding:2em;
         color: #384b5c;

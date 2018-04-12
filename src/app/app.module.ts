@@ -55,6 +55,8 @@ import { DialogdeleteComponent } from './dialogdelete/dialogdelete.component';
 import { DialogrecoveryComponent } from './dialogrecovery/dialogrecovery.component';
 import { NumberComponent } from './DemoViewChild/number/number.component';
 import { ParentNumberComponent } from './DemoViewChild/parent-number/parent-number.component';
+import { GridviewComponent } from './gridview/gridview.component';
+import { ListviewComponent } from './listview/listview.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,7 +68,9 @@ import { ParentNumberComponent } from './DemoViewChild/parent-number/parent-numb
     DialogdeleteComponent,
     DialogrecoveryComponent,
     NumberComponent,
-    ParentNumberComponent
+    ParentNumberComponent,
+    GridviewComponent,
+    ListviewComponent
   ],
   entryComponents: [ DialogdeleteComponent,DialogrecoveryComponent ],
   imports: [

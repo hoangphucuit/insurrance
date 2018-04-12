@@ -1,212 +1,206 @@
 <div class="main">
-  <!--Toolbar-->
-  <mat-toolbar>
-    <button mat-icon-button class="menu-btn" (click)="snav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-
-    <a class="logo"><img src="../../assets/imgs/logo.png" alt="Logo"></a>
-  </mat-toolbar>
-  <!--End Toolbar-->
-  <mat-drawer-container class="content">
-    <mat-drawer #snav class="menu-left" mode="side" opened="true">
-      <div class="noti">
-        <span>
-          <i class="material-icons">brightness_low</i>
-        </span>
-        <span> Hi, Agent1</span>
-      </div>
-      <div class="component">
-        <i class="material-icons">home</i>
-        <span [routerLink]="['/home']"> Home</span>
-      </div>
-      <div class="component">
-        <mat-icon>border_color</mat-icon>
-        <span [routerLink]="['/admin']"> Customers's Infomation</span>
-      </div>
-
-      <div class="component">
-        <i class="material-icons">power_settings_new</i>
-        <span> Logout</span>
-      </div>
-
-    </mat-drawer>
-    <!--Main Content-->
-    <mat-drawer-content class="right-content">
-      <div class="customer">
-        <div class="add-customer">
-          <button class="add-btn" mat-fab (click)="addCustomer()">
-            <mat-icon class="icon-add">add</mat-icon>
-          </button>
-          <span class="name-btn">Create new Customer</span>
+    <!--Toolbar-->
+    <mat-toolbar>
+      <button mat-icon-button class="menu-btn" (click)="snav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+  
+      <a class="logo"><img src="../../assets/imgs/logo.png" alt="Logo"></a>
+    </mat-toolbar>
+    <!--End Toolbar-->
+    <mat-drawer-container class="content" autosize>
+      <mat-drawer #snav class="menu-left" mode="side" opened="false" >
+        <div class="noti">
+          <span>
+            <i class="material-icons">brightness_low</i>
+          </span>
+          <span> Hi, Agent1</span>
         </div>
-
-
-        <div class="example-container mat-elevation-z8">
-          <div style="position: relative;">
-            <mat-form-field class="search">
-              <label>Search</label>
-              <input matInput (keyup)="applyFilter($event.target.value)" >
-            </mat-form-field>
-           
-            <mat-form-field  class="selectIconview">
-              <mat-select [(value)]="typesort"  (change)="sortCustomers($event)">
-                <mat-option value="allcustomers">All Customer</mat-option>
-                <mat-option value="deleted">Deleted Customers</mat-option>
-                <mat-option value="customers">Customers Active</mat-option>
-
-              </mat-select>
-            </mat-form-field>
-            <i class="material-icons view-list" (click)="selectViewicon('option1')">view_list</i>
-            <i class="material-icons view-grid" (click)="selectViewicon('option2')">view_comfy</i>
-            <mat-form-field class="selectIconview">
-              <mat-select [(value)]="agent.selectView" (change)="selectView($event)">
-
-                <mat-option value="option1">List</mat-option>
-                <mat-option value="option2">Grid</mat-option>
-
-              </mat-select>
-            </mat-form-field>
-
+        <div class="component">
+          <i class="material-icons">home</i>
+          <span [routerLink]="['/home']"> Home</span>
+        </div>
+        <div class="component">
+          <mat-icon>border_color</mat-icon>
+          <span [routerLink]="['/admin']"> Customers's Infomation</span>
+        </div>
+  
+        <div class="component">
+          <i class="material-icons">power_settings_new</i>
+          <span> Logout</span>
+        </div>
+  
+      </mat-drawer>
+      <!--Main Content-->
+      <mat-drawer-content class="right-content">
+        <div class="customer">
+          <div class="add-customer">
+            <button class="add-btn" mat-fab (click)="addCustomer()">
+              <mat-icon class="icon-add">add</mat-icon>
+            </button>
+            <span class="name-btn">Create new Customer</span>
           </div>
-<!--Grid View________________________________________________________________ -->
-<!-- <div class="grid-view"> -->
-    
-          <mat-table #table [dataSource]="listCustomer" matSort *ngIf="agent.selectView=='option2'" class="grid-view">
-            <!-- Position Column -->
-           
-            <ng-container matColumnDef="id">
+  
+  
+          <div class="example-container mat-elevation-z8">
+            <div style="position: relative;">
+              <mat-form-field class="search">
+                <label>Search</label>
+                <input matInput (keyup)="applyFilter($event.target.value)" >
+              </mat-form-field>
              
-              <mat-cell *matCellDef="let element">No. : {{element.id}} </mat-cell>
-            </ng-container>
-
-            <!-- Name Column -->
-            <ng-container matColumnDef="name" class="name-customer">
-              <!-- <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell> -->
-              <mat-cell *matCellDef="let element" ><span class="icon-title"><mat-icon>person</mat-icon>{{element.name}}</span>   </mat-cell>
-            </ng-container>
-
-            <!-- phone Column -->
-            <ng-container matColumnDef="phone" class="phone-customer">
-              <!-- <mat-header-cell *matHeaderCellDef mat-sort-header> Phone </mat-header-cell> -->
-              <mat-cell *matCellDef="let element"><span class="icon-title"><mat-icon>phone</mat-icon>{{element.phone}}</span></mat-cell>
-            </ng-container>
-
-            <!-- Address Column -->
-            <ng-container matColumnDef="address" class="disableadd">
-              
-              <!-- <mat-header-cell *matHeaderCellDef mat-sort-header> Address </mat-header-cell> -->
-              <mat-cell *matCellDef="let element" > <span> Address: {{element.address}}</span>   </mat-cell>
-            </ng-container>
-            <!-- Address Column -->
-            <ng-container matColumnDef="birtday">
-              <!-- <mat-header-cell *matHeaderCellDef mat-sort-header> Birtday </mat-header-cell> -->
-              <mat-cell *matCellDef="let element"> {{element.birtday}} </mat-cell>
-            </ng-container>
-            <!-- Showhide column-->
-            <ng-container matColumnDef="showhide">
-              <!-- <mat-header-cell *matHeaderCellDef> Show/Hide </mat-header-cell> -->
-              <mat-cell *matCellDef="let element">
-                <span class="activetoggle">Active: </span>
-                <mat-slide-toggle  [(ngModel)]="element.showhide" [disabled]="true"  [checked]=element.showhide>
-                </mat-slide-toggle>
+              <mat-form-field  class="selectIconview">
+                <mat-select [(value)]="typesort"  (change)="sortCustomers($event.value)">
+                  <mat-option value="allcustomers">All Customer</mat-option>
+                  <mat-option value="deleted">Deleted Customers</mat-option>
+                  <mat-option value="customers">Customers Active</mat-option>
+  
+                </mat-select>
+              </mat-form-field>
+              <i class="material-icons view-list" (click)="selectViewicon('option1')">view_list</i>
+              <i class="material-icons view-grid" (click)="selectViewicon('option2')">view_comfy</i>
+              <!-- <mat-form-field class="selectIconview">
+                <mat-select [(value)]="agent.selectView" (change)="selectView($event)">
+                  <mat-option value="option1">List</mat-option>
+                  <mat-option value="option2">Grid</mat-option>
+                </mat-select>
+              </mat-form-field> -->
+  
+            </div>
+  <!--Grid View________________________________________________________________ -->
+  <!-- <div class="grid-view"> -->
+      
+            <mat-table #table [dataSource]="listCustomer" matSort *ngIf="agent.selectView2" class="grid-view">
+              <!-- Position Column -->
              
-              
-              </mat-cell>
-            </ng-container>
-            <!-- Editdelete Column -->
-            <ng-container matColumnDef="editdelete">
-              <!-- <mat-header-cell *matHeaderCellDef> </mat-header-cell> -->
-              <mat-cell *matCellDef="let element">
-                  <span class="viewmore" routerLink="/detail/{{element.id}}">View more<i class="material-icons icon-next"  >    fast_forward</i></span>
+              <ng-container matColumnDef="id">
+               
+                <mat-cell *matCellDef="let element">No. : {{element.id}} </mat-cell>
+              </ng-container>
+  
+              <!-- Name Column -->
+              <ng-container matColumnDef="name" class="name-customer">
+                <!-- <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell> -->
+                <mat-cell *matCellDef="let element" mat-sort-header ><span class="icon-title"><mat-icon>person</mat-icon>{{element.name}}</span>   </mat-cell>
+              </ng-container>
+  
+              <!-- phone Column -->
+              <ng-container matColumnDef="phone" class="phone-customer">
+                <!-- <mat-header-cell *matHeaderCellDef mat-sort-header> Phone </mat-header-cell> -->
+                <mat-cell *matCellDef="let element"><span class="icon-title"><mat-icon>phone</mat-icon>{{element.phone}}</span></mat-cell>
+              </ng-container>
+  
+              <!-- Address Column -->
+              <ng-container matColumnDef="address" class="disableadd">
                 
-                <!-- <mat-icon class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon> -->
-              </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="xxx">
+                <!-- <mat-header-cell *matHeaderCellDef mat-sort-header> Address </mat-header-cell> -->
+                <mat-cell *matCellDef="let element" > <span> Address: {{element.address}}</span>   </mat-cell>
+              </ng-container>
+              <!-- Address Column -->
+              <ng-container matColumnDef="birtday">
+                <!-- <mat-header-cell *matHeaderCellDef mat-sort-header> Birtday </mat-header-cell> -->
+                <mat-cell *matCellDef="let element"> {{element.birtday}} </mat-cell>
+              </ng-container>
+              <!-- Showhide column-->
+              <ng-container matColumnDef="showhide">
+                <!-- <mat-header-cell *matHeaderCellDef> Show/Hide </mat-header-cell> -->
+                <mat-cell *matCellDef="let element">
+                  <span class="activetoggle">Active: </span>
+                  <mat-slide-toggle  [(ngModel)]="element.showhide" [disabled]="true"  [checked]=element.showhide>
+                  </mat-slide-toggle>
+               
+                
+                </mat-cell>
+              </ng-container>
+              <!-- Editdelete Column -->
+              <ng-container matColumnDef="editdelete">
                 <!-- <mat-header-cell *matHeaderCellDef> </mat-header-cell> -->
-                <mat-cell *matCellDef="let element" class="xxx">
-                    <i *ngIf="element.showhide==true" class="material-icons" (click)="deleteCustomerByID(element.id,element.name)">delete_forever</i>
-                    <i *ngIf="element.showhide==false" class="material-icons" (click)="recoverCustomerByID(element.id,element.name)">cached</i>
+                <mat-cell *matCellDef="let element">
+                    <span class="viewmore" routerLink="/detail/{{element.id}}">View more<i class="material-icons icon-next"  >    fast_forward</i></span>
+                  
                   <!-- <mat-icon class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon> -->
                 </mat-cell>
               </ng-container>
-            <!-- <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row> -->
-            <mat-row *matRowDef="let row; columns: displayedColumns;">
+              <ng-container matColumnDef="xxx">
+                  <!-- <mat-header-cell *matHeaderCellDef> </mat-header-cell> -->
+                  <mat-cell *matCellDef="let element" class="xxx">
+                      <i *ngIf="element.showhide==true" class="material-icons delete" (click)="deleteCustomerByID(element.id,element.name)">delete_forever</i>
+                      <i *ngIf="element.showhide==false" class="material-icons recovery" (click)="recoverCustomerByID(element.id,element.name)">cached</i>
+                    <!-- <mat-icon class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon> -->
+                  </mat-cell>
+                </ng-container>
+              <!-- <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row> -->
+              <mat-row *matRowDef="let row; columns: displayedColumns;">
+                
+              </mat-row>
               
-            </mat-row>
-            
-          </mat-table>
-        <!-- </div> -->
-<!--List View________________________________________________________________ -->
-          <mat-table #table [dataSource]="listCustomer" matSort *ngIf="agent.selectView=='option1'" class="list-view">
-
-            <!-- Position Column -->
-            <ng-container matColumnDef="id">
-              <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
-            </ng-container>
-
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-            </ng-container>
-
-            <!-- phone Column -->
-            <ng-container matColumnDef="phone">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Phone </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.phone}} </mat-cell>
-            </ng-container>
-
-            <!-- Address Column -->
-            <ng-container matColumnDef="address">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Address </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.address}} </mat-cell>
-            </ng-container>
-            <!-- Address Column -->
-            <ng-container matColumnDef="birtday">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Birtday </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.birtday}} </mat-cell>
-            </ng-container>
-            <!-- Showhide column-->
-            <ng-container matColumnDef="showhide">
-              <mat-header-cell *matHeaderCellDef> Show/Hide </mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                <mat-slide-toggle [(ngModel)]="element.showhide" [disabled]="true" [checked]=element.showhide>
-                </mat-slide-toggle>
-              </mat-cell>
-            </ng-container>
-            <!-- Editdelete Column -->
-            <ng-container matColumnDef="editdelete">
-              <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                <mat-icon routerLink="/detail/{{element.id}}" class="icon-edit">edit</mat-icon>
-                <mat-icon *ngIf="element.showhide==true" class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon>
-              </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="xxx">
+            </mat-table>
+          <!-- </div> -->
+  <!--List View________________________________________________________________ -->
+            <mat-table #table [dataSource]="listCustomer" matSort *ngIf="agent.selectView" class="list-view">
+  
+              <!-- Position Column -->
+              <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+              </ng-container>
+  
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+              </ng-container>
+  
+              <!-- phone Column -->
+              <ng-container matColumnDef="phone">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Phone </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.phone}} </mat-cell>
+              </ng-container>
+  
+              <!-- Address Column -->
+              <ng-container matColumnDef="address">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Address </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.address}} </mat-cell>
+              </ng-container>
+              <!-- Address Column -->
+              <ng-container matColumnDef="birtday">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Birtday </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.birtday}} </mat-cell>
+              </ng-container>
+              <!-- Showhide column-->
+              <ng-container matColumnDef="showhide">
+                <mat-header-cell *matHeaderCellDef> Show/Hide </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <mat-slide-toggle [(ngModel)]="element.showhide" [disabled]="true" [checked]=element.showhide>
+                  </mat-slide-toggle>
+                </mat-cell>
+              </ng-container>
+              <!-- Editdelete Column -->
+              <ng-container matColumnDef="editdelete">
                 <mat-header-cell *matHeaderCellDef> </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                   <mat-icon routerLink="/detail/{{element.id}}" class="icon-edit">edit</mat-icon>
-                  <mat-icon  class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon>
+                  <mat-icon *ngIf="element.showhide==true" class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon>
+                  <i *ngIf="element.showhide==false" class="material-icons icon-list-recovery" (click)="recoverCustomerByID(element.id,element.name)">cached</i>
                 </mat-cell>
               </ng-container>
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-          </mat-table>
-
-          <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
-          </mat-paginator>
+              <ng-container matColumnDef="xxx" style="display:none">
+                  <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    <mat-icon routerLink="/detail/{{element.id}}" class="icon-edit">edit</mat-icon>
+                    <mat-icon  class="icon-delete" (click)="deleteCustomerByID(element.id)">delete</mat-icon>
+                   
+                  </mat-cell>
+                </ng-container>
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+  
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+            </mat-paginator>
+          </div>
         </div>
-
-
-
-
-      </div>
-
-
-    </mat-drawer-content>
-    <!--End Main Content-->
-  </mat-drawer-container>
-</div>
+      </mat-drawer-content>
+      <!--End Main Content-->
+    </mat-drawer-container>
+  </div>
