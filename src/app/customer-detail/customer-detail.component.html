@@ -21,7 +21,7 @@
             </div>
             <div class="component">
                 <mat-icon>border_color</mat-icon>
-                <span [routerLink]="['/admin']"> Customers's Infomation</span>
+                <span [routerLink]="['/admin']"> Customers's Information</span>
             </div>
 
             <div class="component">
@@ -41,22 +41,22 @@
                     <mat-form-field class="input-form">
                         <input matInput placeholder="Customer's name" formControlName="name">
                     </mat-form-field>
-                    <p *ngIf="!myForm.controls.name.valid && myForm.controls.name.touched">Name is required</p>
+                    <p class="invalid" *ngIf="!myForm.controls.name.valid && myForm.controls.name.dirty">Name is required</p>
                     <mat-form-field class="input-form">
                         <input matInput [matDatepicker]="picker" placeholder="Customer's Birthday" formControlName="birthday"> 
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                        <mat-datepicker #picker disabled="false"></mat-datepicker>
                     </mat-form-field>
-                    <p *ngIf="!myForm.controls.birthday.valid && myForm.controls.birthday.touched">Birthday is required</p>
+                    <p class="invalid" *ngIf="!myForm.controls.birthday.valid && myForm.controls.birthday.dirty">Birthday is required</p>
                     <mat-form-field class="input-form">
                         <input matInput  placeholder="Customer's Phone" formControlName="phone">
                     </mat-form-field>
-                    <p *ngIf="myForm.controls.phone.hasError('required') && myForm.controls.phone.touched">Phone is required</p>
-                    <p *ngIf="myForm.controls.phone.hasError('pattern')">Phone is must number</p>
+                    <p class="invalid" *ngIf="myForm.controls.phone.hasError('required') && myForm.controls.phone.dirty">Phone is required</p>
+                    <p class="invalid" *ngIf="myForm.controls.phone.hasError('pattern')">Phone is must number</p>
                     <mat-form-field class="input-form">
                         <input matInput placeholder="Customer's Address" formControlName="address">
                     </mat-form-field>
-                    <p *ngIf="myForm.controls.address.hasError('required') && myForm.controls.address.touched">Address is required</p>
+                    <p class="invalid" *ngIf="myForm.controls.address.hasError('required') && myForm.controls.address.dirty">Address is required</p>
                 
                     <input *ngIf="checkIdExist"  type="hidden"  formControlName="showhide">
                     <input  type="hidden"  formControlName="id">
@@ -93,7 +93,7 @@
                                             <input matInput placeholder="Name" formControlName="r_name">
                                         </mat-form-field>
                                         
-                                        <p *ngIf="myForm.controls.relation.controls[i].controls.r_name.hasError('required') && myForm.controls.relation.controls[i].controls.r_name.touched">Address is required</p>
+                                        <p class="invalid" *ngIf="myForm.controls.relation.controls[i].controls.r_name.hasError('required') && myForm.controls.relation.controls[i].controls.r_name.dirty">Address is required</p>
 
                                         <mat-form-field >
                                             <!-- Not Exist relation -->
@@ -104,13 +104,13 @@
                                                 </mat-select>
                                         </mat-form-field>
 
-                                        <p *ngIf="myForm.controls.relation.controls[i].controls.r_relate.hasError('required') && myForm.controls.relation.controls[i].controls.r_relate.touched">Address is required</p>
+                                        <p class="invalid" *ngIf="myForm.controls.relation.controls[i].controls.r_relate.hasError('required') && myForm.controls.relation.controls[i].controls.r_relate.dirty">Address is required</p>
                                       
                                         <!-- Add Phone -->
                                         <mat-form-field class="input-form">
                                             <input matInput placeholder="Phone" formControlName="r_phone">
                                         </mat-form-field>
-                                        <p *ngIf="myForm.controls.relation.controls[i].controls.r_phone.hasError('pattern') && myForm.controls.relation.controls[i].controls.r_phone.touched">Phone is must number</p>
+                                        <p class="invalid" *ngIf="myForm.controls.relation.controls[i].controls.r_phone.hasError('pattern') && myForm.controls.relation.controls[i].controls.r_phone.dirty">Phone is must number</p>
                                         <!-- Add Address -->
                                         <mat-form-field class="input-form">
                                             <input matInput placeholder="Address" formControlName="r_address">

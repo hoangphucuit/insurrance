@@ -15,6 +15,7 @@ import { ReactiveFormsModule,
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Relationship } from '../model/relationship';
+import { DISABLED } from '@angular/forms/src/model';
 
 
 
@@ -32,7 +33,7 @@ export class CustomerDetailComponent implements OnInit {
   submiting: boolean = false;
   checkIdExist: boolean = false;
   headerTitle: string = "";
-  relationLevel = ['Father', 'Mother', 'Brother', 'Sister', 'Son', 'Daughter','Grandfather', 'Grandmother'];
+  relationLevel = ['Husband','Wife','Father', 'Mother', 'Brother', 'Sister', 'Son', 'Daughter','Grandfather', 'Grandmother'];
 
 
   myForm: FormGroup;
@@ -55,10 +56,12 @@ export class CustomerDetailComponent implements OnInit {
         this.checkIdExist=true;
         this.headerTitle = 'CUSTOMER PAGE/EDIT';
         this.relationSpinner = false;
-        this.customer.relation.forEach(element=> {
-          this.relationship = element;
-          this.addRelation(this.relationship);
-        })
+        if (this.customer.relation) {
+          this.customer.relation.forEach(element=> {
+            this.relationship = element;
+            this.addRelation(this.relationship);
+          })
+        }
      } else {
  
        this.headerTitle = 'CUSTOMER PAGE/ADD';}
@@ -67,23 +70,23 @@ export class CustomerDetailComponent implements OnInit {
 
   initCustomer(val?: Customer) {
     this.myForm = this._fb.group({
-      name: [val?val.name:'', Validators.required],
-      birthday: [val?val.birthday:'', Validators.required],
-      phone:[val?val.phone: '', [Validators.required, Validators.pattern("([0-9]+)")]],
-      address: [val?val.address:'', Validators.required],
-      id: [val?val.id:''],
-      showhide: [val?val.showhide:''],
-      relation: this._fb.array([
+      name:       [val?val.name:'', Validators.required],
+      birthday:   [val?val.birthday:'', [Validators.required]],
+      phone:      [val?val.phone: '', [Validators.required, Validators.pattern("([0-9]+)")]],
+      address:    [val?val.address:'', Validators.required],
+      id:         [val?val.id:''],
+      showhide:   [val?val.showhide:''],
+      relation:   this._fb.array([
          //this.initRelation()
       ])
     })
   }
   initRelation(val?: Relationship) {
     return this._fb.group({
-      r_name: [val?val.r_name:'', Validators.required],
-      r_relate: [val?val.r_relate:'', Validators.required],
-      r_phone: [val?val.r_phone:'', Validators.pattern("([0-9]+)")],
-      r_address: [val?val.r_address:''],
+      r_name:     [val?val.r_name:'', Validators.required],
+      r_relate:   [val?val.r_relate:'', Validators.required],
+      r_phone:    [val?val.r_phone:'', Validators.pattern("([0-9]+)")],
+      r_address:  [val?val.r_address:''],
       r_birthday: [val?val.r_birthday:'']
     })
   }
@@ -95,7 +98,7 @@ export class CustomerDetailComponent implements OnInit {
     return this.myForm.reset();
   }
   SubmitForm() {
-    console.log(this.myForm.value);
+    console.log(this.myForm.controls);
     if (this.myForm.valid) {
       this.submiting = true;
       this.customerSvc._addEditCustomerSvc(this.myForm, this.checkIdExist,this.idurl).then(
@@ -105,7 +108,7 @@ export class CustomerDetailComponent implements OnInit {
         },
         (err)=> {
           this.submiting = false;
-          this.customerSvc.openSnackBar('Errors, fail!','');
+          this.customerSvc.openSnackBar('Errors, fail!','Please again!');
         }
       );
     } else {

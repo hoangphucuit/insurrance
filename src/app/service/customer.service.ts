@@ -31,29 +31,18 @@ customer={} as Customer;
   _addEditCustomerSvc(form?: FormGroup, Edit?: boolean, id?: string){
     var tem = this.db.list('customers');
     const getKey = tem.push({});
-  
-    console.log(form.value);
     if (Edit) {
-      console.log('Update');
       return tem.update(id, form.value);
     } else if (!Edit){
       form.value.id = getKey.key;
       form.value.showhide = true;
       return getKey.set(form.value) && tem.update(getKey.key, form.value);
     }
-    
   }
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 2000,
     });
-  }
-  dateFormat(date: Date) {
-   var string= JSON.stringify(date).split('T')[0].split('"')[1];
-   var year =  string.split('-')[0];
-   var month =  string.split('-')[1];
-   var day =  Number(string.split('-')[2])+1;
-   return month+'/'+day+'/'+year;
   }
   updateShowhide(key: string,showhide:boolean){
     this.customersRef.update(key,{
@@ -94,7 +83,5 @@ getCustomersDeleted(){
 }
 getCustomersActive(){
    return this.db.list('customers',ref=>ref.orderByChild('name')).valueChanges();
-
-
 }
 }

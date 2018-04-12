@@ -139,6 +139,15 @@ font-weight: bold;
     z-index: 1000
 }
 
+.invalid {
+    width: 100%;
+    font-size: 11px;
+    text-align: left;
+    color: red;
+    margin: 0;
+    padding: 0
+}
+
 @media only screen and (min-width: 768px) {
     .menu-btn{
         display: block;
