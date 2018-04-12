@@ -6,5 +6,6 @@ export interface Agent{
      address?:string,
      phone?:string,
      birthday?:Date,
-    selectView?:string,
+    selectView?:boolean,
+    selectView2?:boolean,
  }

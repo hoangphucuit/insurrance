@@ -116,9 +116,19 @@ deleteCustomer(id:string){
   this.customersRef.remove(id);
 }
 updateSelectView(key:string,select:string){
-this.usersRef.update(key,{
-  selectView:select,
-});
+  if(select=="option1")
+  {
+    this.usersRef.update(key,{
+      selectView:true,
+      selectView2:false
+    });
+  }
+  else{
+    this.usersRef.update(key,{
+      selectView:false,
+      selectView2:true
+    });
+  }
 }
 getCustomersDeleted(){
   return this.db.list('customers',ref=>ref.orderByChild('showhide').equalTo(false)).valueChanges();
@@ -126,7 +136,7 @@ getCustomersDeleted(){
 }
 getCustomersActive(){
   //return this.db.list('customers',ref=>ref.orderByChild('showhide').equalTo(true)).valueChanges();
-return this.db.list('customers',ref=>ref.orderByChild('name').orderByKey()).valueChanges();
+return this.db.list('customers',ref=>ref.orderByChild('name')).valueChanges();
 
 }
 

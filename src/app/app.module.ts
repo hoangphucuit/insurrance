@@ -53,6 +53,8 @@ import { AgentService } from './service/agent.service';
 import * as firebase from 'firebase';
 import { DialogdeleteComponent } from './dialogdelete/dialogdelete.component';
 import { DialogrecoveryComponent } from './dialogrecovery/dialogrecovery.component';
+import { GridviewComponent } from './gridview/gridview.component';
+import { ListviewComponent } from './listview/listview.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +64,9 @@ import { DialogrecoveryComponent } from './dialogrecovery/dialogrecovery.compone
     HomeComponent,
     CustomerDetailComponent,
     DialogdeleteComponent,
-    DialogrecoveryComponent
+    DialogrecoveryComponent,
+    GridviewComponent,
+    ListviewComponent
   ],
   entryComponents: [ DialogdeleteComponent,DialogrecoveryComponent ],
   imports: [
