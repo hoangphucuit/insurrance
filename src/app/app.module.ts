@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './/app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import {
   MatAutocompleteModule,
@@ -53,6 +53,10 @@ import { AgentService } from './service/agent.service';
 import * as firebase from 'firebase';
 import { DialogdeleteComponent } from './dialogdelete/dialogdelete.component';
 import { DialogrecoveryComponent } from './dialogrecovery/dialogrecovery.component';
+import { NumberComponent } from './DemoViewChild/number/number.component';
+import { ParentNumberComponent } from './DemoViewChild/parent-number/parent-number.component';
+import { GridviewComponent } from './gridview/gridview.component';
+import { ListviewComponent } from './listview/listview.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,14 +66,18 @@ import { DialogrecoveryComponent } from './dialogrecovery/dialogrecovery.compone
     HomeComponent,
     CustomerDetailComponent,
     DialogdeleteComponent,
-    DialogrecoveryComponent
+    DialogrecoveryComponent,
+    NumberComponent,
+    ParentNumberComponent,
+    GridviewComponent,
+    ListviewComponent
   ],
   entryComponents: [ DialogdeleteComponent,DialogrecoveryComponent ],
   imports: [
     AngularFireModule.initializeApp(firebaseConfig, "insurrance"),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-
+    ReactiveFormsModule,
     FormsModule,
     BrowserModule,
     BrowserAnimationsModule,

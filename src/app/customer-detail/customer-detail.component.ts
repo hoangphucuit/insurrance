@@ -4,8 +4,18 @@ import { Observable } from 'rxjs/Observable';
 import { CustomerService } from '../service/customer.service';
 import { ActivatedRoute } from '@angular/router';
 import { Promise } from 'q';
-import { NgForm } from '@angular/forms';
+
+import { ReactiveFormsModule,
+  FormsModule, 
+  FormBuilder, 
+  FormControl, 
+  FormGroup, 
+  Validators,
+  FormArray 
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
+import { Relationship } from '../model/relationship';
+import { DISABLED } from '@angular/forms/src/model';
 
 
 
@@ -16,90 +26,104 @@ import { MatSnackBar } from '@angular/material';
 })
 export class CustomerDetailComponent implements OnInit {
   customer={} as Customer;
-  idurl: string = "";
-  listcustomer:any;
-  relationSpinner: boolean = true;
-  loading: boolean = false;
-  checkIdExist: boolean = false;
-  submited: boolean = false;
-  relationCounter: any;
-  headerTitle: string = "";
-  relationLevel = ['Father', 'Mother', 'Brother', 'Sister', 'Son', 'Daughter','Grandfather', 'Grandmother'];
+  relationship={} as Relationship;
 
-  constructor(public customerSvc:CustomerService,private activeroute: ActivatedRoute, ) { 
+  idurl: string = "";
+  relationSpinner: boolean = true;
+  submiting: boolean = false;
+  checkIdExist: boolean = false;
+  headerTitle: string = "";
+  relationLevel = ['Husband','Wife','Father', 'Mother', 'Brother', 'Sister', 'Son', 'Daughter','Grandfather', 'Grandmother'];
+
+
+  myForm: FormGroup;
+
+  constructor(
+    public customerSvc:CustomerService,
+    private activeroute: ActivatedRoute,
+    private _fb: FormBuilder 
+  ) { 
    this.idurl=this.activeroute.snapshot.params.id;
-   this.relationCounter = [];
-   this.customer.relation = [];
+
   }
   ngOnInit() {
+
+   this.initCustomer();
    this.customerSvc.getCustomer(this.idurl).subscribe(cus=> {
      if (cus) {
         this.customer = cus;
+        this.initCustomer(this.customer);
         this.checkIdExist=true;
         this.headerTitle = 'CUSTOMER PAGE/EDIT';
-        if (!this.customer.relation) {
-          this.customer.relation = [];
-        } 
-        this.relationCounter = [];
-        for (var i =1; i <= this.customer.relation.length; i ++) {
-          this.relationCounter.push(i);
-        }
         this.relationSpinner = false;
-     } else {this.headerTitle = 'CUSTOMER PAGE/ADD';}
+        if (this.customer.relation) {
+          this.customer.relation.forEach(element=> {
+            this.relationship = element;
+            this.addRelation(this.relationship);
+          })
+        }
+     } else {
+ 
+       this.headerTitle = 'CUSTOMER PAGE/ADD';}
    })
   }
+
+  initCustomer(val?: Customer) {
+    this.myForm = this._fb.group({
+      name:       [val?val.name:'', Validators.required],
+      birthday:   [val?val.birthday:'', [Validators.required]],
+      phone:      [val?val.phone: '', [Validators.required, Validators.pattern("([0-9]+)")]],
+      address:    [val?val.address:'', Validators.required],
+      id:         [val?val.id:''],
+      showhide:   [val?val.showhide:''],
+      relation:   this._fb.array([
+         //this.initRelation()
+      ])
+    })
+  }
+  initRelation(val?: Relationship) {
+    return this._fb.group({
+      r_name:     [val?val.r_name:'', Validators.required],
+      r_relate:   [val?val.r_relate:'', Validators.required],
+      r_phone:    [val?val.r_phone:'', Validators.pattern("([0-9]+)")],
+      r_address:  [val?val.r_address:''],
+      r_birthday: [val?val.r_birthday:'']
+    })
+  }
+
   _restore() {
     this.ngOnInit();
   }
-  _resetForm(form: NgForm) {
-    return form.reset();
+  _resetForm() {
+    return this.myForm.reset();
   }
-  SubmitForm(form: NgForm) {
-    let i = this.relationCounter.length? this.relationCounter[this.relationCounter.length-1] : 0;
-    this.loading = true;
-    if (form.valid) {
-        if (this.checkIdExist) {
-          //Edit
-          this.customerSvc._addEditCustomerSvc(form, i, this.checkIdExist, this.idurl).then(
-            (success)=> {
-              this.customerSvc.openSnackBar('Update customer success!','');
-              this.loading = false;
-            },
-            (error) => {
-              this.loading = false;
-              this.customerSvc.openSnackBar('Update customer fail!','Please again');
-            }
-          );
-        } else {
-          //Add
-          this.customerSvc._addEditCustomerSvc(form, i, this.checkIdExist).then(
-            (success)=> {
-              this.customerSvc.openSnackBar('Add customer success!','');
-              this.loading = false;
-            },
-            (error)=> {
-              this.loading = false;
-              this.customerSvc.openSnackBar('Add customer fail!','Please again');
-            }
-          );
+  SubmitForm() {
+    console.log(this.myForm.controls);
+    if (this.myForm.valid) {
+      this.submiting = true;
+      this.customerSvc._addEditCustomerSvc(this.myForm, this.checkIdExist,this.idurl).then(
+        (success)=> {
+          this.customerSvc.openSnackBar('Success','');
+          this.submiting = false;
+        },
+        (err)=> {
+          this.submiting = false;
+          this.customerSvc.openSnackBar('Errors, fail!','Please again!');
         }
+      );
     } else {
-        this.loading = false;
-        this.customerSvc.openSnackBar('Form must enter as required','Please again');
+      this.customerSvc.openSnackBar('Please enter correct value to fields are required','Please again!');
     }
+    
   }
-  addRelation() {
-    let i = this.relationCounter[this.relationCounter.length-1]? this.relationCounter[this.relationCounter.length-1] : 0;
-    this.relationCounter.push(i+1);
+  addRelation(relation?: Relationship) {
+    const control = <FormArray>this.myForm.controls['relation'];
+    control.push(this.initRelation(relation));
   }
   removeRalation(i: number) {
-    this.relationCounter.splice(i, 1);
+    const control  = <FormArray>this.myForm.controls['relation'];
+    control.removeAt(i);
   }
-  removeRalationAf(i: number) {
-    if (!i) {
-      return false;
-    }
-    alert('Delete Firebase')
-  }
+
 
 }

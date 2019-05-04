@@ -16,7 +16,6 @@ customer={} as Customer;
  usersRef:AngularFireList<any>;
  users:Observable<any[]>;
   constructor(private db:AngularFireDatabase, public snackBar: MatSnackBar) { 
-
     this.getCustomersDeleted();
     this.usersRef = this.db.list('users');
     this.users = this.usersRef.snapshotChanges().map(changes => {
@@ -30,62 +29,21 @@ customer={} as Customer;
   getAllCustomer(){
     return this.db.list('customers').valueChanges();
   }
-  _addEditCustomerSvc(form: NgForm, counter: number, Edit: boolean, id?: string){
+  _addEditCustomerSvc(form?: FormGroup, Edit?: boolean, id?: string){
     var tem = this.db.list('customers');
     const getKey = tem.push({});
-    let dataCustomer = {};
-    let dataRelation = [];
-   
-    if (counter > 0) {
-      //Exist Relation
-      for (var i = 0; i <= counter; i ++) {
-        if (form.controls['r_name_'+i]) {
-          dataRelation.push({
-            name: form.controls['r_name_'+i].value,
-            relation: form.controls['r_relate_'+i].value,
-            phone: form.controls['r_phone_'+i].value,
-            address: form.controls['r_address_'+i].value,
-            birthday: form.controls['r_birthday_'+i].value
-          })
-          dataCustomer = {
-            id: id? id: getKey.key,
-            name: form.controls['name'].value,
-            birthday: form.controls['birthday'].value,
-            address: form.controls['address'].value,
-            phone: form.controls['phone'].value,
-            showhide: form.controls['showhide']?form.controls['showhide'].value:true,
-            relation: dataRelation
-          }
-        }
-      }
-    } else {
-      dataCustomer = {
-        id: id? id: getKey.key,
-        name: form.controls['name'].value,
-        birthday: form.controls['birthday'].value,
-        address: form.controls['address'].value,
-        phone: form.controls['phone'].value,
-        showhide: form.controls['showhide']?form.controls['showhide'].value:true,
-        relation: ""
-      }
-    } 
     if (Edit) {
-      return tem.update(id, dataCustomer);
+      return tem.update(id, form.value);
     } else if (!Edit){
-      return getKey.set(dataCustomer) && tem.update(getKey.key, dataCustomer);
+      form.value.id = getKey.key;
+      form.value.showhide = true;
+      return getKey.set(form.value) && tem.update(getKey.key, form.value);
     }
   }
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 2000,
     });
-  }
-  dateFormat(date: Date) {
-   var string= JSON.stringify(date).split('T')[0].split('"')[1];
-   var year =  string.split('-')[0];
-   var month =  string.split('-')[1];
-   var day =  Number(string.split('-')[2])+1;
-   return month+'/'+day+'/'+year;
   }
   updateShowhide(key: string,showhide:boolean){
     this.customersRef.update(key,{
@@ -116,9 +74,19 @@ deleteCustomer(id:string){
   this.customersRef.remove(id);
 }
 updateSelectView(key:string,select:string){
-this.usersRef.update(key,{
-  selectView:select,
-});
+  if(select=="option1")
+  {
+    this.usersRef.update(key,{
+      selectView:true,
+      selectView2:false
+    });
+  }
+  else{
+    this.usersRef.update(key,{
+      selectView:false,
+      selectView2:true
+    });
+  }
 }
 getCustomersDeleted(){
   return this.db.list('customers',ref=>ref.orderByChild('showhide').equalTo(false)).valueChanges();
@@ -126,7 +94,7 @@ getCustomersDeleted(){
 }
 getCustomersActive(){
   //return this.db.list('customers',ref=>ref.orderByChild('showhide').equalTo(true)).valueChanges();
-return this.db.list('customers',ref=>ref.orderByChild('name').orderByKey()).valueChanges();
+return this.db.list('customers',ref=>ref.orderByChild('name')).valueChanges();
 
 }
 

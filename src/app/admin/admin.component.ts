@@ -17,87 +17,105 @@ import { DialogrecoveryComponent } from '../dialogrecovery/dialogrecovery.compon
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
-  typesort="customers";
- 
-showhide:boolean;
-  sourceCustomer:Customer[];
-  deletedCustomers:Customer[];
-  displayedColumns = ['id', 'name', 'phone', 'address','showhide','editdelete','xxx'];
+  typesort = "customers";
+
+  showhide: boolean;
+  sourceCustomer: Customer[];
+  deletedCustomers: Customer[];
+  displayedColumns = ['id', 'name', 'phone', 'address', 'showhide', 'editdelete', 'xxx'];
   listCustomer = new MatTableDataSource<Customer>();
-  defaultView="option1";
-  agent= {} as Agent;
- 
+  defaultView = "option1";
+  agent = {} as Agent;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   ngAfterViewInit() {//phan trang
     this.listCustomer.paginator = this.paginator;
-      this.listCustomer.sort = this.sort;
-    
+    this.listCustomer.sort = this.sort;
+
   }
   constructor(
-    
+
     private router: Router,
-    public customerSvc:CustomerService,
+    public customerSvc: CustomerService,
     public dialog: MatDialog
   ) {
 
-    this.getCustomerActive();
-  
     
+
+
   }
 
   ngOnInit() {
-    this.customerSvc.getSelectView('-L99fmHp5U1SxkFGUJm0').subscribe(cus=> {
-      if(cus)
-      {
-       this.agent = cus;
+    
+    this.customerSvc.getSelectView('-L99fmHp5U1SxkFGUJm0').subscribe(cus => {
+      if (cus) {
+        this.agent = cus;
+
       }
+
     });
-   
+    this.getCustomerActive();
+    
+  }
+
+  getAllCustomer() {
+    this.customerSvc.getAllCustomer().subscribe(customers => {
+
+      this.sourceCustomer = customers;
+      this.listCustomer.data = customers;
+      this.listCustomer.sort = this.sort;
+      
+    });
+    this.listCustomer.paginator = this.paginator;
+    
+  
+  }
+  getCustomerActive() {
+    this.customerSvc.getCustomersActive().subscribe(customers => {
+
+      this.sourceCustomer = customers;
+      this.listCustomer.data = customers;
+      this.listCustomer.data = this.listCustomer.data.filter(a =>
+        a.showhide == true
+      );
+      this.listCustomer.sort = this.sort;
+      
+    });
+    this.listCustomer.paginator = this.paginator;
+    
+    
   }
  
-  getAllCustomer(){
-    this.customerSvc.getAllCustomer().subscribe(customers=>{
-      
-      this.sourceCustomer=customers;
-      this.listCustomer.data=customers;
-     
-    });
-  }
-  getCustomerActive(){
-    this.customerSvc.getCustomersActive().subscribe(customers=>{
-      
-      this.sourceCustomer=customers;
-      this.listCustomer.data=customers;
-      this.listCustomer.data= this.listCustomer.data.filter(a=>
-        a.showhide==true
-      );
-     
-    });
-  }
-  getCustomersDeleted(){
-    this.customerSvc.getCustomersDeleted().subscribe(customers=>{
-      this.sourceCustomer=customers;
-      this.listCustomer.data=customers;
+  getCustomersDeleted() {
+    this.customerSvc.getCustomersDeleted().subscribe(customers => {
+      this.sourceCustomer = customers;
+      this.listCustomer.data = customers;
+      this.listCustomer.sort = this.sort;
       
     });
+    this.listCustomer.paginator = this.paginator;
+    //this.listCustomer.paginator.firstPage();
+    alert(this.listCustomer.paginator.length);//so page cua trang truoc
+    alert(this.listCustomer.paginator.hasNextPage());
+    
   }
- applyFilter(filterValue: string) { //search
-     filterValue = filterValue.trim(); // Remove whitespace
-     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-     this.listCustomer.filter = filterValue;
-   }
+  applyFilter(filterValue: string) { //search
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.listCustomer.filter = filterValue;
+  }
   addCustomer() {
     this.router.navigate(['/customer']);
   }
- 
+
   // onChange(event,id:string){
   //   let dialogRef = this.dialog.open(DialogrecoveryComponent, {
   //     width: '250px',
   //     data: { name: name,id:id,typesort:this.typesort,done:""}
   //   });
   //  // this.customerSvc.updateShowhide(id,event.checked);//event.checked la true or false.
-    
+
   //  dialogRef.afterClosed().subscribe(result => {
   //   if(result!=undefined)//click ok
   //   { 
@@ -112,98 +130,108 @@ showhide:boolean;
   //   }
   // });
   // }
-  editCustomerByID(){
+  editCustomerByID() {
 
   }
-  deleteCustomerByID(id,name): void {
+  deleteCustomerByID(id, name): void {
     let dialogRef = this.dialog.open(DialogdeleteComponent, {
       width: '250px',
-      data: { name: name,id:id,typesort:this.typesort,done:""}
+      data: { name: name, id: id, typesort: this.typesort, done: "" }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result!=undefined)//click ok
-      { 
-        if(this.typesort=="customers")
-        {
+      if (result != undefined)//click ok
+      {
+        if (this.typesort == "customers") {
           this.getCustomerActive();
         }
-        if(this.typesort=="allcustomers")
-        {
+        if (this.typesort == "allcustomers") {
           this.getAllCustomer();
         }
       }
     });
-   
+
   }
- recoverCustomerByID(id,name): void {
+  recoverCustomerByID(id, name): void {
     let dialogRef = this.dialog.open(DialogrecoveryComponent, {
       width: '250px',
-      data: { name: name,id:id,typesort:this.typesort,done:""}
+      data: { name: name, id: id, typesort: this.typesort, done: "" }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result!=undefined)//click ok
-      { 
-        if(this.typesort=="deleted")
-        {
+      if (result != undefined)//click ok
+      {
+        if (this.typesort == "deleted") {
           this.getCustomersDeleted();
         }
-        if(this.typesort=="allcustomers")
-        {
+        if (this.typesort == "allcustomers") {
           this.getAllCustomer();
         }
       }
     });
-   
+
   }
 
 
-    //this.customerSvc.deleteCustomer(id);
-    //khi xoa se disable toggle
-    
-    // this.customerSvc.updateShowhide(id,false);
-    // if(this.typesort=="customers")
-    // {
-    //   this.getCustomerActive();
-    // }
-    // if(this.typesort=="allcustomers")
-    // {
-    //   this.getAllCustomer();
-    // }
-    // if(this.typesort=="deleted")
-    // {
-    //   this.getCustomersDeleted();
-    // }
-  
-  sortCustomers(event){
-    
-    switch(event.value) { 
-      case "deleted": { 
-       this.getCustomersDeleted();
-         break; 
+  //this.customerSvc.deleteCustomer(id);
+  //khi xoa se disable toggle
+
+  // this.customerSvc.updateShowhide(id,false);
+  // if(this.typesort=="customers")
+  // {
+  //   this.getCustomerActive();
+  // }
+  // if(this.typesort=="allcustomers")
+  // {
+  //   this.getAllCustomer();
+  // }
+  // if(this.typesort=="deleted")
+  // {
+  //   this.getCustomersDeleted();
+  // }
+
+  sortCustomers(event) {
+
+    switch (event) {
+      case "deleted": {
+        this.getCustomersDeleted();
+        break;
       }
-      case "customers":{
+      case "customers": {
         this.getCustomerActive();
         break;
       }
-     case "allcustomers":{
-       this.getAllCustomer();
-       break;
-     }
-   } 
+      case "allcustomers": {
+        this.getAllCustomer();
+        break;
+      }
+    }
   }
- 
-  selectView(event){
-    
-    this.defaultView=event.value;
-    this.customerSvc.updateSelectView('-L99fmHp5U1SxkFGUJm0',event.value);
-   
+
+  selectView(event) {
+
+    this.defaultView = event.value;
+    this.customerSvc.updateSelectView('-L99fmHp5U1SxkFGUJm0', event.value);
+
 
   }
-  selectViewicon(event){
-    
-    this.defaultView=event;
-    this.customerSvc.updateSelectView('-L99fmHp5U1SxkFGUJm0',event);
-   
+  async selectViewicon(event: string) {
+
+
+    if (event == 'option1') {
+      this.customerSvc.updateSelectView('-L99fmHp5U1SxkFGUJm0', event);
+      
+        this.sortCustomers(this.typesort);
+      
+    }
+    else if (event == 'option2') {
+     this.customerSvc.updateSelectView('-L99fmHp5U1SxkFGUJm0', event);
+     
+     this.sortCustomers(this.typesort);
+      
+    }
+
+    // console.log(this.viewlist);
+    // console.log(this.viewgrid);
+    // this.defaultView=event;
 
   }
 }

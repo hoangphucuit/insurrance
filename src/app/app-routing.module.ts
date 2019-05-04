@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { HomeComponent } from './home/home.component';
+import { ParentNumberComponent } from './DemoViewChild/parent-number/parent-number.component';
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -13,6 +14,8 @@ const routes: Routes = [
   { path: 'admin', component: AdminComponent },
   { path: 'customer', component: CustomerDetailComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'number', component: ParentNumberComponent}
+
 ];
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],

@@ -110,7 +110,11 @@ font-weight: bold;
 
 
 
-
+.add-relation-box {
+    width: 100%;
+    text-align: left;
+    padding: 20px 0;
+}
 .relation-form {
     .box {
         width: 90%;
@@ -126,9 +130,62 @@ font-weight: bold;
     padding: 20px 0;
     margin: auto;
 }
+
+.loadOVerScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color: #000000, $alpha: 0.3);
+    z-index: 1000
+}
+
+.invalid {
+    width: 100%;
+    font-size: 11px;
+    text-align: left;
+    color: red;
+    margin: 0;
+    padding: 0
+}
+
+@media only screen and (min-width: 768px) {
+    .menu-btn{
+        display: block;
+    }
+    .content .menu-left {
+        width: 40%;
+    }
+    .loadOVerScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba($color: #000000, $alpha: 0.3);
+        z-index: 1000;
+        padding-left: 650px;
+        padding-top: 350px;
+    }
+}
 @media only screen and (max-width: 768px) {
-    
+    .menu-btn{
+        display: block;
+    }
+    .content .menu-left {
+        width: 40%;
+    }
+    .loadOVerScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba($color: #000000, $alpha: 0.3);
+        z-index: 1000;
+        padding-left: 350px;
+        padding-top: 350px;
+    }
 }
-@media only screen and (min-width: 992px) {
-    
-}
+
